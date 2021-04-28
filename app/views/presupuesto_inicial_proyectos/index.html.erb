@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Presupuesto Inicial Proyectos</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rubro</th>
+      <th>Proyecto</th>
+      <th>Descripcion</th>
+      <th>Valor inicial</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @presupuesto_inicial_proyectos.each do |presupuesto_inicial_proyecto| %>
+      <tr>
+        <td><%= presupuesto_inicial_proyecto.rubro_id %></td>
+        <td><%= presupuesto_inicial_proyecto.proyecto_id %></td>
+        <td><%= presupuesto_inicial_proyecto.descripcion %></td>
+        <td><%= presupuesto_inicial_proyecto.valor_inicial %></td>
+        <td><%= link_to 'Show', presupuesto_inicial_proyecto %></td>
+        <td><%= link_to 'Edit', edit_presupuesto_inicial_proyecto_path(presupuesto_inicial_proyecto) %></td>
+        <td><%= link_to 'Destroy', presupuesto_inicial_proyecto, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Presupuesto Inicial Proyecto', new_presupuesto_inicial_proyecto_path %>

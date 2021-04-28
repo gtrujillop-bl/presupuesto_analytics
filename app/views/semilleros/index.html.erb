@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Semilleros</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Grupo</th>
+      <th>Descripcion</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @semilleros.each do |semillero| %>
+      <tr>
+        <td><%= semillero.nombre %></td>
+        <td><%= semillero.grupo_id %></td>
+        <td><%= semillero.descripcion %></td>
+        <td><%= link_to 'Show', semillero %></td>
+        <td><%= link_to 'Edit', edit_semillero_path(semillero) %></td>
+        <td><%= link_to 'Destroy', semillero, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Semillero', new_semillero_path %>

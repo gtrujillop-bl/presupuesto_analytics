@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Nombre:</strong>
+  <%= @rubro.nombre %>
+</p>
+
+<p>
+  <strong>Descripcion:</strong>
+  <%= @rubro.descripcion %>
+</p>
+
+<%= link_to 'Edit', edit_rubro_path(@rubro) %> |
+<%= link_to 'Back', rubros_path %>

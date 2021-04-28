@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Rubro:</strong>
+  <%= @presupuesto_inicial_proyecto.rubro_id %>
+</p>
+
+<p>
+  <strong>Proyecto:</strong>
+  <%= @presupuesto_inicial_proyecto.proyecto_id %>
+</p>
+
+<p>
+  <strong>Descripcion:</strong>
+  <%= @presupuesto_inicial_proyecto.descripcion %>
+</p>
+
+<p>
+  <strong>Valor inicial:</strong>
+  <%= @presupuesto_inicial_proyecto.valor_inicial %>
+</p>
+
+<%= link_to 'Edit', edit_presupuesto_inicial_proyecto_path(@presupuesto_inicial_proyecto) %> |
+<%= link_to 'Back', presupuesto_inicial_proyectos_path %>

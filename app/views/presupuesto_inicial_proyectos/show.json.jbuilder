@@ -1,0 +1,1 @@
+json.partial! "presupuesto_inicial_proyectos/presupuesto_inicial_proyecto", presupuesto_inicial_proyecto: @presupuesto_inicial_proyecto

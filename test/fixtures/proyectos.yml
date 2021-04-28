@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nombre: MyString
+  fecha_inicio: 2021-04-28
+  fecha_fin: 2021-04-28
+  facultad: one
+  grupo: one
+  semillero: one
+  investigador: one
+  numero_proyecto: MyString
+
+two:
+  nombre: MyString
+  fecha_inicio: 2021-04-28
+  fecha_fin: 2021-04-28
+  facultad: two
+  grupo: two
+  semillero: two
+  investigador: two
+  numero_proyecto: MyString

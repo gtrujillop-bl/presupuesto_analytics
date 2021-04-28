@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Cedula:</strong>
+  <%= @investigador.cedula %>
+</p>
+
+<p>
+  <strong>Nombres:</strong>
+  <%= @investigador.nombres %>
+</p>
+
+<p>
+  <strong>Apellidos:</strong>
+  <%= @investigador.apellidos %>
+</p>
+
+<%= link_to 'Edit', edit_investigador_path(@investigador) %> |
+<%= link_to 'Back', investigadors_path %>

@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Presupuestos</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rubro</th>
+      <th>Proyecto</th>
+      <th>Valor inicial</th>
+      <th>Disponibilidad</th>
+      <th>Descripcion</th>
+      <th>Egreso</th>
+      <th>Reserva</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @presupuestos.each do |presupuesto| %>
+      <tr>
+        <td><%= presupuesto.rubro_id %></td>
+        <td><%= presupuesto.proyecto_id %></td>
+        <td><%= presupuesto.valor_inicial %></td>
+        <td><%= presupuesto.disponibilidad %></td>
+        <td><%= presupuesto.descripcion %></td>
+        <td><%= presupuesto.egreso %></td>
+        <td><%= presupuesto.reserva %></td>
+        <td><%= link_to 'Show', presupuesto %></td>
+        <td><%= link_to 'Edit', edit_presupuesto_path(presupuesto) %></td>
+        <td><%= link_to 'Destroy', presupuesto, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Presupuesto', new_presupuesto_path %>

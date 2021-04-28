@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Nombre:</strong>
+  <%= @semillero.nombre %>
+</p>
+
+<p>
+  <strong>Grupo:</strong>
+  <%= @semillero.grupo_id %>
+</p>
+
+<p>
+  <strong>Descripcion:</strong>
+  <%= @semillero.descripcion %>
+</p>
+
+<%= link_to 'Edit', edit_semillero_path(@semillero) %> |
+<%= link_to 'Back', semilleros_path %>

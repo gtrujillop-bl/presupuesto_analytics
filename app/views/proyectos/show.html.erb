@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Nombre:</strong>
+  <%= @proyecto.nombre %>
+</p>
+
+<p>
+  <strong>Fecha inicio:</strong>
+  <%= @proyecto.fecha_inicio %>
+</p>
+
+<p>
+  <strong>Fecha fin:</strong>
+  <%= @proyecto.fecha_fin %>
+</p>
+
+<p>
+  <strong>Facultad:</strong>
+  <%= @proyecto.facultad_id %>
+</p>
+
+<p>
+  <strong>Grupo:</strong>
+  <%= @proyecto.grupo_id %>
+</p>
+
+<p>
+  <strong>Semillero:</strong>
+  <%= @proyecto.semillero_id %>
+</p>
+
+<p>
+  <strong>Investigador:</strong>
+  <%= @proyecto.investigador_id %>
+</p>
+
+<p>
+  <strong>Numero proyecto:</strong>
+  <%= @proyecto.numero_proyecto %>
+</p>
+
+<%= link_to 'Edit', edit_proyecto_path(@proyecto) %> |
+<%= link_to 'Back', proyectos_path %>
