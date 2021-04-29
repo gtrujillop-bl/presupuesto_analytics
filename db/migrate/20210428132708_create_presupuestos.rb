@@ -1,6 +1,6 @@
 class CreatePresupuestos < ActiveRecord::Migration[6.1]
   def change
-    create_table :presupuestos do |t|
+    create_table :presupuestos, if_not_exists: true do |t|
       t.references :rubro, null: false, foreign_key: true
       t.references :proyecto, null: false, foreign_key: true
       t.decimal :valor_inicial

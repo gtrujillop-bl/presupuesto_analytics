@@ -1,6 +1,6 @@
 class CreateProyectos < ActiveRecord::Migration[6.1]
   def change
-    create_table :proyectos do |t|
+    create_table :proyectos, if_not_exists: true do |t|
       t.string :nombre
       t.date :fecha_inicio
       t.date :fecha_fin

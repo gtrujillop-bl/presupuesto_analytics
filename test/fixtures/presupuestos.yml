@@ -13,8 +13,10 @@
 #
 # Indexes
 #
-#  fki_fk_presupuestos_proyectos  (proyecto_id)
-#  fki_fk_presupuestos_rubros     (rubro_id)
+#  fki_fk_presupuestos_proyectos      (proyecto_id)
+#  fki_fk_presupuestos_rubros         (rubro_id)
+#  index_presupuestos_on_proyecto_id  (proyecto_id)
+#  index_presupuestos_on_rubro_id     (rubro_id)
 #
 # Foreign Keys
 #

@@ -14,10 +14,14 @@
 #
 # Indexes
 #
-#  fki_fk_proyectos_facultades      (facultad_id)
-#  fki_fk_proyectos_grupos          (grupo_id)
-#  fki_fk_proyectos_investigadores  (investigador_id)
-#  fki_fk_proyectos_semilleros      (semillero_id)
+#  fki_fk_proyectos_facultades         (facultad_id)
+#  fki_fk_proyectos_grupos             (grupo_id)
+#  fki_fk_proyectos_investigadores     (investigador_id)
+#  fki_fk_proyectos_semilleros         (semillero_id)
+#  index_proyectos_on_facultad_id      (facultad_id)
+#  index_proyectos_on_grupo_id         (grupo_id)
+#  index_proyectos_on_investigador_id  (investigador_id)
+#  index_proyectos_on_semillero_id     (semillero_id)
 #
 # Foreign Keys
 #

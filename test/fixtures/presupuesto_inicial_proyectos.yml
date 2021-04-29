@@ -10,8 +10,10 @@
 #
 # Indexes
 #
-#  fki_fk_presupuesto_inicial_proyectos  (proyecto_id)
-#  uk_rubro_proyecto                     (rubro_id,proyecto_id) UNIQUE
+#  fki_fk_presupuesto_inicial_proyectos                (proyecto_id)
+#  index_presupuesto_inicial_proyectos_on_proyecto_id  (proyecto_id)
+#  index_presupuesto_inicial_proyectos_on_rubro_id     (rubro_id)
+#  uk_rubro_proyecto                                   (rubro_id,proyecto_id) UNIQUE
 #
 # Foreign Keys
 #

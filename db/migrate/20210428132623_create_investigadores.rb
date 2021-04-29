@@ -1,6 +1,6 @@
-class CreateInvestigadors < ActiveRecord::Migration[6.1]
+class CreateInvestigadores < ActiveRecord::Migration[6.1]
   def change
-    create_table :investigadors do |t|
+    create_table :investigadores, if_not_exists: true do |t|
       t.integer :cedula
       t.string :nombres
       t.string :apellidos

@@ -9,7 +9,8 @@
 #
 # Indexes
 #
-#  fki_fk_semilleros_grupos  (grupo_id)
+#  fki_fk_semilleros_grupos      (grupo_id)
+#  index_semilleros_on_grupo_id  (grupo_id)
 #
 # Foreign Keys
 #

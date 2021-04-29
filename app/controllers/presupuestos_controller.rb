@@ -1,9 +1,11 @@
 class PresupuestosController < ApplicationController
-  before_action :set_presupuesto, only: %i[ show edit update destroy ]
+  include PresupuestosHelper
 
+  before_action :set_presupuesto, only: %i[ show edit update destroy ]
+  
   # GET /presupuestos or /presupuestos.json
   def index
-    @presupuestos = Presupuesto.all
+    presupuestos_agg
   end
 
   # GET /presupuestos/1 or /presupuestos/1.json
@@ -44,15 +46,6 @@ class PresupuestosController < ApplicationController
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @presupuesto.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /presupuestos/1 or /presupuestos/1.json
-  def destroy
-    @presupuesto.destroy
-    respond_to do |format|
-      format.html { redirect_to presupuestos_url, notice: "Presupuesto was successfully destroyed." }
-      format.json { head :no_content }
     end
   end
 

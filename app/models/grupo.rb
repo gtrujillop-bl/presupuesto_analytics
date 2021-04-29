@@ -8,7 +8,8 @@
 #
 # Indexes
 #
-#  fki_fk_grupos_facultades  (facultad_id)
+#  fki_fk_grupos_facultades     (facultad_id)
+#  index_grupos_on_facultad_id  (facultad_id)
 #
 # Foreign Keys
 #

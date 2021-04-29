@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2021_04_28_132800) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "nombre"
     t.bigint "facultad_id", comment: "Identificador de la facultad"
     t.index ["facultad_id"], name: "fki_fk_grupos_facultades"
+    t.index ["facultad_id"], name: "index_grupos_on_facultad_id"
   end
 
   create_table "investigadores", force: :cascade do |t|
@@ -40,7 +41,9 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "descripcion", null: false
     t.decimal "valor_inicial", null: false
     t.index ["proyecto_id"], name: "fki_fk_presupuesto_inicial_proyectos"
+    t.index ["proyecto_id"], name: "index_presupuesto_inicial_proyectos_on_proyecto_id"
     t.index ["rubro_id", "proyecto_id"], name: "uk_rubro_proyecto", unique: true
+    t.index ["rubro_id"], name: "index_presupuesto_inicial_proyectos_on_rubro_id"
   end
 
   create_table "presupuestos", force: :cascade do |t|
@@ -52,7 +55,9 @@ ActiveRecord::Schema.define(version: 0) do
     t.decimal "egreso", default: "0.0"
     t.decimal "reserva", default: "0.0"
     t.index ["proyecto_id"], name: "fki_fk_presupuestos_proyectos"
+    t.index ["proyecto_id"], name: "index_presupuestos_on_proyecto_id"
     t.index ["rubro_id"], name: "fki_fk_presupuestos_rubros"
+    t.index ["rubro_id"], name: "index_presupuestos_on_rubro_id"
   end
 
   create_table "proyectos", force: :cascade do |t|
@@ -65,9 +70,13 @@ ActiveRecord::Schema.define(version: 0) do
     t.bigint "investigador_id"
     t.string "numero_proyecto", null: false
     t.index ["facultad_id"], name: "fki_fk_proyectos_facultades"
+    t.index ["facultad_id"], name: "index_proyectos_on_facultad_id"
     t.index ["grupo_id"], name: "fki_fk_proyectos_grupos"
+    t.index ["grupo_id"], name: "index_proyectos_on_grupo_id"
     t.index ["investigador_id"], name: "fki_fk_proyectos_investigadores"
+    t.index ["investigador_id"], name: "index_proyectos_on_investigador_id"
     t.index ["semillero_id"], name: "fki_fk_proyectos_semilleros"
+    t.index ["semillero_id"], name: "index_proyectos_on_semillero_id"
   end
 
   create_table "rubros", force: :cascade do |t|
@@ -81,6 +90,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.bigint "grupo_id"
     t.string "descripcion", limit: 255
     t.index ["grupo_id"], name: "fki_fk_semilleros_grupos"
+    t.index ["grupo_id"], name: "index_semilleros_on_grupo_id"
   end
 
   add_foreign_key "grupos", "facultades", column: "facultad_id", name: "fk_grupos_facultades", on_update: :cascade, on_delete: :cascade

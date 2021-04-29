@@ -43,6 +43,7 @@ group :development do
   gem 'listen', '~> 3.3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'pry-byebug'
 end
 
 group :test do
@@ -53,6 +54,7 @@ group :test do
   gem 'webdrivers'
   gem 'factory_bot', '>= 6.1.0'
   gem 'rspec-rails', '~> 5.0.0'
+  gem 'pry-byebug'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
