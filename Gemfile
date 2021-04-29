@@ -24,7 +24,7 @@ gem 'jbuilder', '~> 2.7'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
-
+gem "chartkick", '~> 4.0.3'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
@@ -34,6 +34,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'annotate', '>= 3.1.1'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 4.1.0'
   # Display performance information such as SQL time and flame graphs for each request in your browser.
@@ -50,6 +51,8 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
+  gem 'factory_bot', '>= 6.1.0'
+  gem 'rspec-rails', '~> 5.0.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
