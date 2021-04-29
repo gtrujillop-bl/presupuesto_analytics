@@ -3,8 +3,12 @@
 # Table name: rubros
 #
 #  id          :bigint           not null, primary key
-#  nombre      :string           not null
 #  descripcion :string(255)
+#  nombre      :string           not null
+#
+# Indexes
+#
+#  uk_nombre_rubro  (nombre) UNIQUE
 #
 require "test_helper"
 

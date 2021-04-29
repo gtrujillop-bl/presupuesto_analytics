@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: facultades
+#
+#  id     :bigint           not null, primary key
+#  nombre :string
+#
+# Indexes
+#
+#  uk_nombre_facultad  (nombre) UNIQUE
+#
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
