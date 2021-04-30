@@ -1,9 +1,9 @@
-class InvestigadorsController < ApplicationController
+class InvestigadoresController < ApplicationController
   before_action :set_investigador, only: %i[ show edit update destroy ]
 
   # GET /investigadors or /investigadors.json
   def index
-    @investigadors = Investigador.all
+    @investigadores = Investigador.all
   end
 
   # GET /investigadors/1 or /investigadors/1.json
@@ -51,7 +51,7 @@ class InvestigadorsController < ApplicationController
   def destroy
     @investigador.destroy
     respond_to do |format|
-      format.html { redirect_to investigadors_url, notice: "Investigador was successfully destroyed." }
+      format.html { redirect_to investigadores_url, notice: "Investigador was successfully destroyed." }
       format.json { head :no_content }
     end
   end

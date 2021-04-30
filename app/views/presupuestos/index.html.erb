@@ -1,4 +1,4 @@
-<% if @presupuestos.present? && @por_proyecto.blank? %>
+<% if @presupuestos.present? && !@por_proyecto.blank? %>
 
   <p id="notice"><%= notice %></p>
 
@@ -39,6 +39,6 @@
   <br>
 
   <%= link_to 'New Presupuesto', new_presupuesto_path %>
-<% elsif @por_proyecto.present? %>
+<% elsif false && @por_proyecto.present? && true %>
 
 <% end %>

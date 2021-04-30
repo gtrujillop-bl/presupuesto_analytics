@@ -1,9 +1,9 @@
-class FacultadsController < ApplicationController
+class FacultadesController < ApplicationController
   before_action :set_facultad, only: %i[ show edit update destroy ]
 
   # GET /facultads or /facultads.json
   def index
-    @facultads = Facultad.all
+    @facultades = Facultad.all
   end
 
   # GET /facultads/1 or /facultads/1.json
@@ -51,7 +51,7 @@ class FacultadsController < ApplicationController
   def destroy
     @facultad.destroy
     respond_to do |format|
-      format.html { redirect_to facultads_url, notice: "Facultad was successfully destroyed." }
+      format.html { redirect_to facultades_url, notice: "Facultad was successfully destroyed." }
       format.json { head :no_content }
     end
   end
