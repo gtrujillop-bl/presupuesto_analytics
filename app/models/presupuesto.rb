@@ -39,15 +39,21 @@ class Presupuesto < ApplicationRecord
         fa.nombre,
         pr.fecha_inicio,
         pr.fecha_fin,
-        cast(SUM(pre.valor_inicial) AS money) AS presupuesto_inicial,
-        cast(SUM(pre.disponibilidad) AS money) AS disponibilidad_total,
-        cast(SUM(pre.egreso) AS money) AS egreso_total,
-        cast(SUM(pre.reserva) AS money) AS reserva_total
+        SUM(pre.valor_inicial) AS presupuesto_inicial,
+        SUM(pre.disponibilidad) AS disponibilidad_total,
+        SUM(pre.egreso) AS egreso_total,
+        SUM(pre.reserva) AS reserva_total
         FROM presupuestos pre
         INNER JOIN proyectos pr ON pr.id = pre.proyecto_id
         INNER JOIN facultades fa ON pr.facultad_id = fa.id
         GROUP BY pr.id, fa.id;
     SQL
-    ActiveRecord::Base.connection.execute(sql)
+    ActiveRecord::Base.connection.exec_query(sql).to_a.map do |res|
+      res['presupuesto_inicial'] = res['presupuesto_inicial'].to_f
+      res['disponibilidad_total'] = res['disponibilidad_total'].to_f
+      res['egreso_total'] = res['egreso_total'].to_f
+      res['reserva_total'] = res['reserva_total'].to_f
+      res
+    end
   end
 end

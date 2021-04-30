@@ -1,10 +1,10 @@
-<% if @presupuestos.present? && !@por_proyecto.blank? %>
+<% if @presupuestos.present? && @por_proyecto.blank? %>
 
   <p id="notice"><%= notice %></p>
 
   <h1>Lista de Presupuestos</h1>
 
-  <table>
+  <table class="table table-striped">
     <thead>
       <tr>
         <th>Rubro</th>
@@ -39,6 +39,7 @@
   <br>
 
   <%= link_to 'New Presupuesto', new_presupuesto_path %>
-<% elsif false && @por_proyecto.present? && true %>
-
+<% elsif @por_proyecto.present? %>
+  <%= bar_chart @data, stacked_bar_opts
+  %>
 <% end %>
