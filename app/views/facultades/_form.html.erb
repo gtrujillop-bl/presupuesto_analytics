@@ -1,4 +1,4 @@
-<%= form_with(model: facultad) do |form| %>
+<%= form_with(model: facultad, url: facultade_path(facultad), method: :post) do |form| %>
   <% if facultad.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(facultad.errors.count, "error") %> prohibited this facultad from being saved:</h2>
