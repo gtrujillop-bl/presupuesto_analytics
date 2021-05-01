@@ -28,9 +28,9 @@
         <td><%= proyecto.semillero_id %></td>
         <td><%= proyecto.investigador_id %></td>
         <td><%= proyecto.numero_proyecto %></td>
-        <td><%= link_to 'Show', proyecto %></td>
-        <td><%= link_to 'Edit', edit_proyecto_path(proyecto) %></td>
-        <td><%= link_to 'Destroy', proyecto, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Ver', proyecto %></td>
+        <td><%= link_to 'Editar', edit_proyecto_path(proyecto) %></td>
+        <td><%= link_to 'Borrar', proyecto, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

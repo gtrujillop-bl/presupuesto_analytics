@@ -18,9 +18,9 @@
         <td><%= semillero.nombre %></td>
         <td><%= semillero.grupo_id %></td>
         <td><%= semillero.descripcion %></td>
-        <td><%= link_to 'Show', semillero %></td>
-        <td><%= link_to 'Edit', edit_semillero_path(semillero) %></td>
-        <td><%= link_to 'Destroy', semillero, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Ver', semillero %></td>
+        <td><%= link_to 'Editar', edit_semillero_path(semillero) %></td>
+        <td><%= link_to 'Borrar', semillero, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

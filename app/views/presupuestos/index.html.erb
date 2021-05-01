@@ -1,7 +1,15 @@
-<% if @presupuestos.present? && @por_proyecto.blank? %>
-
+<% require 'money' %>
+<% if @por_proyecto.present? %>
+  <%= render 'por_proyectos', data: @data %>
+<% elsif @por_facultad.present? %>
+  <%= render 'por_facultades', data: @data %>
+<% elsif @por_grupo.present? %>
+  <%= render 'por_grupos', data: @data %>
+<% elsif @por_rubro.present? %>
+  <%= render 'por_rubros', data: @data %>
+<% end %>
+<% if @presupuestos.present? %>
   <p id="notice"><%= notice %></p>
-
   <h1>Lista de Presupuestos</h1>
 
   <table class="table table-striped">
@@ -9,9 +17,9 @@
       <tr>
         <th>Rubro</th>
         <th>Proyecto</th>
+        <th>Descripcion</th>
         <th>Valor inicial</th>
         <th>Disponibilidad</th>
-        <th>Descripcion</th>
         <th>Egreso</th>
         <th>Reserva</th>
         <th colspan="3"></th>
@@ -23,23 +31,17 @@
         <tr>
           <td><%= presupuesto.rubro_id %></td>
           <td><%= presupuesto.proyecto_id %></td>
-          <td><%= presupuesto.valor_inicial %></td>
-          <td><%= presupuesto.disponibilidad %></td>
           <td><%= presupuesto.descripcion %></td>
-          <td><%= presupuesto.egreso %></td>
-          <td><%= presupuesto.reserva %></td>
-          <td><%= link_to 'Show', presupuesto %></td>
-          <td><%= link_to 'Edit', edit_presupuesto_path(presupuesto) %></td>
-          <td><%= link_to 'Destroy', presupuesto, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= Money.from_amount(presupuesto.valor_inicial, 'COP').format %></td>
+          <td><%= Money.from_amount(presupuesto.disponibilidad, 'COP').format %></td>
+          <td><%= Money.from_amount(presupuesto.egreso, 'COP').format %></td>
+          <td><%= Money.from_amount(presupuesto.reserva, 'COP').format %></td>
+          <td><%= link_to 'Ver', presupuesto %></td>
+          <td><%= link_to 'Editar', edit_presupuesto_path(presupuesto) %></td>
+          <td><%= link_to 'Borrar', presupuesto, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
-
-  <br>
-
-  <%= link_to 'New Presupuesto', new_presupuesto_path %>
-<% elsif @por_proyecto.present? %>
-  <%= bar_chart @data, stacked_bar_opts
-  %>
+  <%= link_to 'Registrar Presupuesto', new_presupuesto_path %>
 <% end %>

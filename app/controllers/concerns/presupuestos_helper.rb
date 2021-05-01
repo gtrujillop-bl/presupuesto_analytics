@@ -25,13 +25,13 @@ module PresupuestosHelper
       responsive: true, 
       scales: {
         xAxes: [{
-          stacked: true,
+          stacked: false,
           gridLines: {
             display: false,
           }
         }],
         yAxes: [{
-          stacked: true,
+          stacked: false,
           ticks: {
             beginAtZero: true,
           },
@@ -45,16 +45,6 @@ module PresupuestosHelper
   
   def presupuestos_agg
     if params[:reporte].blank?
-      @por_proyecto = Presupuesto.por_proyecto
-      labels = @por_proyecto.map { |proyecto| proyecto['numero_proyecto'] }.compact.uniq
-      datasets = metricas_presupuestos.map.with_index do |metric, idx|
-        {}.tap do |data|
-          data['label'] = metric.titleize
-          data['backgroundColor'] = metricas_colors[idx]
-          data['data'] = @por_proyecto.map { |proyecto| proyecto[metric] }
-        end
-      end
-      @data = { labels: labels, datasets: datasets }
       @presupuestos = Presupuesto.all
       return
     end
@@ -66,9 +56,66 @@ module PresupuestosHelper
 
     case option
     when :por_facultad
+      data_presupuesto_facultades
     when :por_grupo
+      data_presupuesto_grupos
     when :por_anio
     when :por_rubro
+      data_presupuesto_rubros
     end
-  end 
+  end
+
+  private
+
+  def data_presupuesto_proyectos
+    @por_proyecto = Presupuesto.por_proyecto
+    labels = @por_proyecto.map { |proyecto| proyecto['numero_proyecto'] }.compact.uniq
+    datasets = metricas_presupuestos.map.with_index do |metric, idx|
+      {}.tap do |data|
+        data['label'] = metric.titleize
+        data['backgroundColor'] = metricas_colors[idx]
+        data['data'] = @por_proyecto.map { |proyecto| proyecto[metric] }
+      end
+    end
+    @data = { labels: labels, datasets: datasets }
+  end
+
+  def data_presupuesto_facultades
+    @por_facultad = Presupuesto.por_facultad
+    labels = @por_facultad.map { |facultad| facultad['nombre_facultad'] }.compact.uniq
+    datasets = metricas_presupuestos.map.with_index do |metric, idx|
+      {}.tap do |data|
+        data['label'] = metric.titleize
+        data['backgroundColor'] = metricas_colors[idx]
+        data['data'] = @por_facultad.map { |facultad| facultad[metric] }
+      end
+    end
+    @data = { labels: labels, datasets: datasets }
+  end
+
+  def data_presupuesto_grupos
+    @por_grupo = Presupuesto.por_grupo
+    labels = @por_grupo.map { |grupo| grupo['nombre_grupo'] }.compact.uniq
+    datasets = metricas_presupuestos.map.with_index do |metric, idx|
+      {}.tap do |data|
+        data['label'] = metric.titleize
+        data['backgroundColor'] = metricas_colors[idx]
+        data['data'] = @por_grupo.map { |grupo| grupo[metric] }
+      end
+    end
+    @data = { labels: labels, datasets: datasets }
+  end
+
+  def data_presupuesto_rubros
+    @por_rubro = Presupuesto.por_rubro
+    labels = @por_rubro.map { |rubro| rubro['nombre_rubro'] }.compact.uniq
+    datasets = metricas_presupuestos.map.with_index do |metric, idx|
+      {}.tap do |data|
+        data['label'] = metric.titleize
+        data['backgroundColor'] = metricas_colors[idx]
+        data['data'] = @por_rubro.map { |rubro| rubro[metric] }
+      end
+    end
+    @data = { labels: labels, datasets: datasets }
+  end
 end

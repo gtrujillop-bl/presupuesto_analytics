@@ -16,9 +16,9 @@
       <tr>
         <td><%= grupo.nombre %></td>
         <td><%= grupo.facultad_id %></td>
-        <td><%= link_to 'Show', grupo %></td>
-        <td><%= link_to 'Edit', edit_grupo_path(grupo) %></td>
-        <td><%= link_to 'Destroy', grupo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Ver', grupo %></td>
+        <td><%= link_to 'Editar', edit_grupo_path(grupo) %></td>
+        <td><%= link_to 'Borrar', grupo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

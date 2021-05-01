@@ -16,9 +16,9 @@
       <tr>
         <td><%= rubro.nombre %></td>
         <td><%= rubro.descripcion %></td>
-        <td><%= link_to 'Show', rubro %></td>
-        <td><%= link_to 'Edit', edit_rubro_path(rubro) %></td>
-        <td><%= link_to 'Destroy', rubro, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Ver', rubro %></td>
+        <td><%= link_to 'Editar', edit_rubro_path(rubro) %></td>
+        <td><%= link_to 'Borrar', rubro, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

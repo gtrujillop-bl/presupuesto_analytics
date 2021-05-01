@@ -20,9 +20,9 @@
         <td><%= presupuesto_inicial_proyecto.proyecto_id %></td>
         <td><%= presupuesto_inicial_proyecto.descripcion %></td>
         <td><%= presupuesto_inicial_proyecto.valor_inicial %></td>
-        <td><%= link_to 'Show', presupuesto_inicial_proyecto %></td>
-        <td><%= link_to 'Edit', edit_presupuesto_inicial_proyecto_path(presupuesto_inicial_proyecto) %></td>
-        <td><%= link_to 'Destroy', presupuesto_inicial_proyecto, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Ver', presupuesto_inicial_proyecto %></td>
+        <td><%= link_to 'Editar', edit_presupuesto_inicial_proyecto_path(presupuesto_inicial_proyecto) %></td>
+        <td><%= link_to 'Borrar', presupuesto_inicial_proyecto, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

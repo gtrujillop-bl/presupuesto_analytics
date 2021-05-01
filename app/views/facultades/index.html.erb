@@ -14,9 +14,9 @@
     <% @facultades.each do |facultad| %>
       <tr>
         <td><%= facultad.nombre %></td>
-        <td><%= link_to 'Show', facultade_path(facultad) %></td>
-        <td><%= link_to 'Edit', edit_facultade_path(facultad) %></td>
-        <td><%= link_to 'Destroy', facultade_path(facultad), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Ver', facultade_path(facultad) %></td>
+        <td><%= link_to 'Editar', edit_facultade_path(facultad) %></td>
+        <td><%= link_to 'Borrar', facultade_path(facultad), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

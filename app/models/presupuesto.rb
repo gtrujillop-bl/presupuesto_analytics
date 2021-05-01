@@ -1,3 +1,4 @@
+require 'money'
 # == Schema Information
 #
 # Table name: presupuestos
@@ -47,6 +48,71 @@ class Presupuesto < ApplicationRecord
         INNER JOIN proyectos pr ON pr.id = pre.proyecto_id
         INNER JOIN facultades fa ON pr.facultad_id = fa.id
         GROUP BY pr.id, fa.id;
+    SQL
+    ActiveRecord::Base.connection.exec_query(sql).to_a.map do |res|
+      res['presupuesto_inicial'] = res['presupuesto_inicial'].to_f
+      res['disponibilidad_total'] = res['disponibilidad_total'].to_f
+      res['egreso_total'] = res['egreso_total'].to_f
+      res['reserva_total'] = res['reserva_total'].to_f
+      res
+    end
+  end
+
+  def self.por_facultad
+    sql = <<-SQL
+      SELECT 
+        fa.nombre AS nombre_facultad,
+        SUM(pre.valor_inicial) AS presupuesto_inicial,
+        SUM(pre.disponibilidad) AS disponibilidad_total,
+        SUM(pre.egreso) AS egreso_total,
+        SUM(pre.reserva) AS reserva_total
+        FROM presupuestos pre
+        INNER JOIN proyectos pr ON pr.id = pre.proyecto_id
+        INNER JOIN facultades fa ON pr.facultad_id = fa.id
+        GROUP BY fa.id;
+    SQL
+    ActiveRecord::Base.connection.exec_query(sql).to_a.map do |res|
+      res['presupuesto_inicial'] = res['presupuesto_inicial'].to_f
+      res['disponibilidad_total'] = res['disponibilidad_total'].to_f
+      res['egreso_total'] = res['egreso_total'].to_f
+      res['reserva_total'] = res['reserva_total'].to_f
+      res
+    end
+  end
+
+  def self.por_grupo
+    sql = <<-SQL
+      SELECT 
+        gr.nombre AS nombre_grupo,
+        SUM(pre.valor_inicial) AS presupuesto_inicial,
+        SUM(pre.disponibilidad) AS disponibilidad_total,
+        SUM(pre.egreso) AS egreso_total,
+        SUM(pre.reserva) AS reserva_total
+        FROM presupuestos pre
+        INNER JOIN proyectos pr ON pr.id = pre.proyecto_id
+        INNER JOIN grupos gr ON gr.id = pr.grupo_id
+        GROUP BY gr.id
+    SQL
+    ActiveRecord::Base.connection.exec_query(sql).to_a.map do |res|
+      res['presupuesto_inicial'] = res['presupuesto_inicial'].to_f
+      res['disponibilidad_total'] = res['disponibilidad_total'].to_f
+      res['egreso_total'] = res['egreso_total'].to_f
+      res['reserva_total'] = res['reserva_total'].to_f
+      res
+    end
+  end
+
+  def self.por_rubro
+    sql = <<-SQL
+      SELECT 
+        ru.nombre AS nombre_rubro,
+        SUM(pre.valor_inicial) AS presupuesto_inicial,
+        SUM(pre.disponibilidad) AS disponibilidad_total,
+        SUM(pre.egreso) AS egreso_total,
+        SUM(pre.reserva) AS reserva_total
+        FROM presupuestos pre
+        INNER JOIN rubros ru ON ru.id = pre.rubro_id
+        GROUP BY ru.id
     SQL
     ActiveRecord::Base.connection.exec_query(sql).to_a.map do |res|
       res['presupuesto_inicial'] = res['presupuesto_inicial'].to_f

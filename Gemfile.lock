@@ -86,7 +86,6 @@ GEM
       xpath (~> 3.2)
     chartjs-ror (3.6.4)
       rails (>= 3.1)
-    chartkick (4.0.3)
     childprocess (3.0.0)
     coderay (1.1.3)
     concurrent-ruby (1.1.8)
@@ -120,6 +119,8 @@ GEM
     mini_mime (1.0.3)
     mini_portile2 (2.5.0)
     minitest (5.14.4)
+    money (6.14.1)
+      i18n (>= 0.6.4, <= 2)
     msgpack (1.4.2)
     nio4r (2.5.7)
     nokogiri (1.11.3)
@@ -253,11 +254,11 @@ DEPENDENCIES
   byebug
   capybara (>= 3.26)
   chartjs-ror
-  chartkick (~> 4.0.3)
   factory_bot (>= 6.1.0)
   jbuilder (~> 2.7)
   jquery-rails
   listen (~> 3.3)
+  money
   pg (~> 1.1)
   pry-byebug
   puma (~> 5.0)

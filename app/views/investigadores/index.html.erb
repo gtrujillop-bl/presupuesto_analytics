@@ -18,9 +18,9 @@
         <td><%= investigador.cedula %></td>
         <td><%= investigador.nombres %></td>
         <td><%= investigador.apellidos %></td>
-        <td><%= link_to 'Show', investigadore_path(investigador) %></td>
-        <td><%= link_to 'Edit', edit_investigadore_path(investigador) %></td>
-        <td><%= link_to 'Destroy', investigadore_path(investigador), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Ver', investigadore_path(investigador) %></td>
+        <td><%= link_to 'Editar', edit_investigadore_path(investigador) %></td>
+        <td><%= link_to 'Borrar', investigadore_path(investigador), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
