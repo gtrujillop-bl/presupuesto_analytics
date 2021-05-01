@@ -7,10 +7,6 @@ module PresupuestosHelper
     por_proyecto
   ]
 
-  def stack_colors
-    
-  end
-
   def metricas_presupuestos
     ['presupuesto_inicial', 'disponibilidad_total', 'reserva_total', 'egreso_total']
   end
@@ -60,6 +56,7 @@ module PresupuestosHelper
     when :por_grupo
       data_presupuesto_grupos
     when :por_anio
+      data_presupuesto_anios
     when :por_rubro
       data_presupuesto_rubros
     end
@@ -114,6 +111,19 @@ module PresupuestosHelper
         data['label'] = metric.titleize
         data['backgroundColor'] = metricas_colors[idx]
         data['data'] = @por_rubro.map { |rubro| rubro[metric] }
+      end
+    end
+    @data = { labels: labels, datasets: datasets }
+  end
+
+  def data_presupuesto_anios
+    @por_anio = Presupuesto.por_anio
+    labels = @por_anio.map { |anio| anio['anio_inicio'] }.compact.uniq
+    datasets = metricas_presupuestos.map.with_index do |metric, idx|
+      {}.tap do |data|
+        data['label'] = metric.titleize
+        data['backgroundColor'] = metricas_colors[idx]
+        data['data'] = @por_anio.map { |anio| anio[metric] }
       end
     end
     @data = { labels: labels, datasets: datasets }

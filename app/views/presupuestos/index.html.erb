@@ -7,6 +7,8 @@
   <%= render 'por_grupos', data: @data %>
 <% elsif @por_rubro.present? %>
   <%= render 'por_rubros', data: @data %>
+<% elsif @por_anio.present? %>
+  <%= render 'por_anios', data: @data %>
 <% end %>
 <% if @presupuestos.present? %>
   <p id="notice"><%= notice %></p>
