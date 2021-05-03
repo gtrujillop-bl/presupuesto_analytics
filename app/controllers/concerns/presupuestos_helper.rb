@@ -23,19 +23,37 @@ module PresupuestosHelper
         xAxes: [{
           stacked: false,
           gridLines: {
-            display: false,
-          }
+            display: true,
+          },
+          scaleLabel: { 
+            display: true, 
+            fontSize: 10, 
+          } 
         }],
         yAxes: [{
           stacked: false,
           ticks: {
             beginAtZero: true,
+            callback: 'function(value, index, values) {
+              return "$" + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
+            }'
           },
           type: 'linear',
+          scaleLabel: {
+
+          }
         }]
       }, 
       legend: { position: 'bottom' },
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      tooltips: {
+        enabled: true,
+        callbacks: {
+          label: 'function(tooltipItem) {
+            return "$" + tooltipItem.yLabel.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
+          }'
+        }
+      }
     }
   end
   
