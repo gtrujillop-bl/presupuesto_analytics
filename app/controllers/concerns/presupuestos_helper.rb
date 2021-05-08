@@ -82,18 +82,18 @@ module PresupuestosHelper
 
   private
 
-  def data_presupuesto_proyectos
-    @por_proyecto = Presupuesto.por_proyecto
-    labels = @por_proyecto.map { |proyecto| proyecto['numero_proyecto'] }.compact.uniq
-    datasets = metricas_presupuestos.map.with_index do |metric, idx|
-      {}.tap do |data|
-        data['label'] = metric.titleize
-        data['backgroundColor'] = metricas_colors[idx]
-        data['data'] = @por_proyecto.map { |proyecto| proyecto[metric] }
-      end
-    end
-    @data = { labels: labels, datasets: datasets }
-  end
+  # def data_presupuesto_proyectos
+  #   @por_proyecto = Presupuesto.por_proyecto
+  #   labels = @por_proyecto.map { |proyecto| proyecto['numero_proyecto'] }.compact.uniq
+  #   datasets = metricas_presupuestos.map.with_index do |metric, idx|
+  #     {}.tap do |data|
+  #       data['label'] = metric.titleize
+  #       data['backgroundColor'] = metricas_colors[idx]
+  #       data['data'] = @por_proyecto.map { |proyecto| proyecto[metric] }
+  #     end
+  #   end
+  #   @data = { labels: labels, datasets: datasets }
+  # end
 
   def data_presupuesto_facultades
     @por_facultad = Presupuesto.por_facultad
