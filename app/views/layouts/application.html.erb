@@ -13,6 +13,46 @@
   </head>
 
   <body>
-    <%= yield %>
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Dashboard</a>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          
+        </li>
+      </ul>
+    </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <h4 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              <span>Reportes</span>
+            </h4>
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link active" href="/presupuestos">
+                Lista de Presupuestos
+                </a>
+              </li>
+              <li class="nav-item">
+              <%= link_to 'Facultad', presupuestos_path(reporte: 'por_facultad'), class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to 'Año', presupuestos_path(reporte: 'por_anio'), class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to 'Grupo', presupuestos_path(reporte: 'por_grupo'), class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to 'Rubro', presupuestos_path(reporte: 'por_rubro'), class: "nav-link" %>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <main role="main" class="col-md-8 ml-sm-auto col-lg-10 pt-3 px-4">
+          <%= yield %>
+        </main>
+      </div>
+    </div>
   </body>
 </html>

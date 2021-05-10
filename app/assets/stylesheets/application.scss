@@ -1,6 +1,116 @@
 // Custom bootstrap variables must be set or imported *before* bootstrap.
 @import "bootstrap";
+// Google Fonts
+@import url(http://fonts.googleapis.com/css?family=Roboto|Staatliches|Open+Sans:400italic,700italic,400,700);
+
+// Font Variables
+$roboto: "Roboto", serif;
+$title: "Staatliches", serif;
+$open-sans: "Open Sans", sans-serif;
+$acceVerde: #84a640;
+$acceAzul: #396696;
+$acceGris: #333;
+
+body {
+  .container-fluid {
+    .sidebar,
+    .main {
+      height: calc(100vh - 40px);
+    }
+  }
+  font-family: $roboto;
+  font-weight: normal;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: $title;
+    font-weight: normal;
+  }
+  .sidebar .nav-link {
+    font-weight: 500;
+    color: $acceGris;
+    &:visited {
+      color: $acceGris;
+    }
+    &:hover {
+      color: $acceAzul;
+    }
+    &:active {
+      color: $acceAzul;
+    }
+  }
+  .top-container {
+    position: relative;
+    a {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.5em 0.5em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    text-decoration: none;
+  }
+  .badge-primary {
+    color: #fff;
+    background-color: #007bff;
+    &:focus,
+    &:hover {
+      color: #fff;
+      background-color: #0062cc;
+    }
+  }
+  .badge-secondary {
+    color: #fff;
+    background-color: #6c757d;
+    &:focus,
+    &:hover {
+      color: #fff;
+      background-color: #545b62;
+    }
+  }
+  .badge-danger {
+    color: #fff;
+    background-color: #dc3545;
+    &:focus,
+    &:hover {
+      color: #fff;
+      background-color: #bd2130;
+    }
+  }
+  .badge-info {
+    color: #fff;
+    background-color: #17a2b8;
+    &:focus,
+    &:hover {
+      background-color: #117a8b;
+    }
+  }
+
+  table {
+    th,
+    td {
+      font-size: 0.875rem;
+    }
+
+    td.pr-money {
+      color: $acceVerde;
+    }
+  }
+}
 
 .currSign:before {
-  content: '$';
+  content: "$";
 }
