@@ -19,7 +19,7 @@
 
     <div class="field">
       <%= form.label :proyecto_id %>
-      <%= form.collection_select :proyecto_id, proyectos, :id, :nombre %>
+      <%= form.collection_select :proyecto_id, proyectos, :id, :numero_proyecto %>
     </div>
 
     <div class="field">
@@ -48,7 +48,7 @@
     </div>
 
     <div class="actions">
-    <%= link_to 'Volver', presupuestos_path %> <%= form.submit %>
+    <%= link_to 'Volver', presupuestos_path %> <%= form.submit "Crear presupuesto" %>
     </div>
   <% end %>
 
