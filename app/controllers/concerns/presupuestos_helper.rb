@@ -161,4 +161,10 @@ module PresupuestosHelper
 
     @data = { labels: labels, datasets: datasets }
   end
+  
+  def report_by
+    reporte = params[:reporte].to_sym
+    filter_option = params[:by]
+    @reports = Presupuesto.joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("extract(year from proyectos.fecha_inicio) = ?", filter_option)
+  end
 end

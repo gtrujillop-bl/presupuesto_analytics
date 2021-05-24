@@ -66,12 +66,7 @@ class PresupuestosController < ApplicationController
     redirect_to presupuestos_path(ids: presupuestos_ids), notice: "Successfully Imported Data!!"
   end
 
-  def report_by
-    reporte = params[:reporte].to_sym
-    filter_option = params[:by]
-    @reports = Presupuesto.all
-  end
-
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_presupuesto
