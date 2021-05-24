@@ -1,23 +1,17 @@
-<% require 'money' %>
-<% if @por_proyecto.present? %>
-  <%= render 'por_proyectos', data: @data %>
-  <%= render 'shared/grid' %>
-<% elsif @por_facultad.present? %>
-  <%= render 'por_facultades', data: @data %>
-  <%= render 'shared/grid' %>
-<% elsif @por_grupo.present? %>
-  <%= render 'por_grupos', data: @data %>
-  <%= render 'shared/grid' %>
-<% elsif @por_rubro.present? %>
-  <%= render 'por_rubros', data: @data %>
-  <%= render 'shared/grid' %>
-<% elsif @por_anio.present? %>
-  <%= render 'por_anios', data: @data %>
-  <%= render 'shared/grid' %>
-<% end %>
-<% if @presupuestos.present? %>
+<div class="reports">
+
+<% if @reports.present? %>
   <p id="notice"><%= notice %></p>
-  <h1>Lista de Presupuestos</h1>
+  <h1>Reporte de Presupuestos año</h1>
+  
+  <%= form_with url: presupuestos_path, method: :get do |form| %>
+    <% option = params[:reporte] %>
+    <%= form.label :query, "Filtrar" %>
+    <%= form.hidden_field :reporte, value: option %>
+    <%= form.select :by, ["2021", "2020", "2019", "2018"] %>
+    <%= form.submit "Filtrar" %>
+  <% end %>
+  
 
   <table class="table table-striped">
     <thead>
@@ -34,7 +28,7 @@
     </thead>
 
     <tbody>
-      <% @presupuestos.each do |presupuesto| %>
+      <% @reports.each do |presupuesto| %>
         <tr>
           <td><%= presupuesto.rubro_id %></td>
           <td><%= presupuesto.proyecto_id %></td>
@@ -52,3 +46,4 @@
   </table>
   <%= link_to 'Registrar Presupuesto', new_presupuesto_path %>
 <% end %>
+</div>

@@ -25,6 +25,8 @@ require 'money'
 #  fk_presupuestos_rubros     (rubro_id => rubros.id)
 #
 class Presupuesto < ApplicationRecord
+  require 'csv'
+
   belongs_to :rubro, foreign_key: :rubro_id
   belongs_to :proyecto, foreign_key: :proyecto_id
 
@@ -135,6 +137,35 @@ class Presupuesto < ApplicationRecord
     SQL
     formatted_results(sql1: sql_presupuestos, sql2: sql_presupuesto_inicial, join_column: 'anio_inicio')
   end
+
+  def self.csv_import(file)
+    
+    Presupuesto.transaction do
+      presupuestos = []
+      begin
+        CSV.foreach(file.path, headers: true, encoding:'iso-8859-1:utf-8') do |row|
+          rubro = row[0]
+          numero_proyecto = row[1]
+          @rubro = Rubro.where(['lower(nombre) = ?', rubro.downcase]).first
+          raise ActiveRecord::RecordNotFound.new("No se encontró rubro: #{rubro}") if @rubro.blank?
+
+          @proyecto = Proyecto.find_by(numero_proyecto: numero_proyecto)
+          raise  ActiveRecord::RecordNotFound.new("No se encontró proyecto: #{numero_proyecto}") if @proyecto.blank?
+          
+          element = row.to_h
+          element = element.slice('valor_inicial', 'disponibilidad', 'descripcion', 'egreso', 'reserva')
+          element.merge!({'proyecto_id' => @proyecto.id, 'rubro_id' => @rubro.id})
+          presupuestos << element
+        end
+        Presupuesto.create!(presupuestos)
+      rescue ActiveRecord::ActiveRecordError => e
+        logger.error e.message
+        # return false
+        raise ActiveRecord::ActiveRecordError.new("No se pudo importar CSV #{e.message}")
+      end
+    end
+    
+  end
   
 
   private
@@ -153,6 +184,7 @@ class Presupuesto < ApplicationRecord
         res[join_column].to_s.downcase == rpi[join_column].to_s.downcase 
       end['presupuesto_inicial']
 
+      res['anio_inicio'] = res['anio_inicio'].to_i
       res['disponibilidad_total'] = res['disponibilidad_total'].to_f
       res['egreso_total'] = res['egreso_total'].to_f
       res['reserva_total'] = res['reserva_total'].to_f

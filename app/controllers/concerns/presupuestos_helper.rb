@@ -136,6 +136,9 @@ module PresupuestosHelper
 
   def data_presupuesto_anios
     @por_anio = Presupuesto.por_anio
+    reporte = params[:reporte].to_sym
+    filter_option = params[:by]
+
     labels = @por_anio.map { |anio| anio['anio_inicio'] }.compact.uniq
     datasets = metricas_presupuestos.map.with_index do |metric, idx|
       {}.tap do |data|
@@ -144,6 +147,18 @@ module PresupuestosHelper
         data['data'] = @por_anio.map { |anio| anio[metric] }
       end
     end
+    if params[:by].present?
+      labels = @por_anio.select{ |anio| anio['anio_inicio'] == filter_option.to_i }
+      labels = labels.map { |anio| anio['anio_inicio'] }.compact.uniq
+      datasets = metricas_presupuestos.map.with_index do |metric, idx|
+        {}.tap do |data|
+          data['label'] = metric.titleize
+          data['backgroundColor'] = metricas_colors[idx]
+          data['data'] = @por_anio.select{ |anio| anio['anio_inicio'] == filter_option.to_i }.map{ |anio| anio[metric] }
+        end
+      end
+    end
+
     @data = { labels: labels, datasets: datasets }
   end
 end
