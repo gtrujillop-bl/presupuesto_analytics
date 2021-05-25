@@ -97,6 +97,9 @@ module PresupuestosHelper
 
   def data_presupuesto_facultades
     @por_facultad = Presupuesto.por_facultad
+    filter_option = params[:by]
+    # binding.pry
+    @options = @por_facultad.map { |elemento| [elemento['nombre_facultad'], elemento['id']] }
     labels = @por_facultad.map { |facultad| facultad['nombre_facultad'] }.compact.uniq
     datasets = metricas_presupuestos.map.with_index do |metric, idx|
       {}.tap do |data|
@@ -105,11 +108,25 @@ module PresupuestosHelper
         data['data'] = @por_facultad.map { |facultad| facultad[metric] }
       end
     end
+    if params[:by].present?
+      labels = @por_facultad.select{ |facultad| facultad['id'] == filter_option.to_i }
+      labels = labels.map { |facultad| facultad['nombre_facultad'] }.compact.uniq
+      #labels = @por_facultad.map { |facultad| facultad['nombre_facultad'] }.compact.uniq
+      datasets = metricas_presupuestos.map.with_index do |metric, idx|
+        {}.tap do |data|
+          data['label'] = metric.titleize
+          data['backgroundColor'] = metricas_colors[idx]
+          data['data'] = @por_facultad.select{ |facultad| facultad['id'] == filter_option.to_i }.map { |facultad| facultad[metric] }
+        end
+      end
+    end
     @data = { labels: labels, datasets: datasets }
   end
 
   def data_presupuesto_grupos
     @por_grupo = Presupuesto.por_grupo
+    filter_option = params[:by]
+    @options = @por_grupo.map { |elemento| [elemento['nombre_grupo'], elemento['id']] }
     labels = @por_grupo.map { |grupo| grupo['nombre_grupo'] }.compact.uniq
     datasets = metricas_presupuestos.map.with_index do |metric, idx|
       {}.tap do |data|
@@ -118,11 +135,25 @@ module PresupuestosHelper
         data['data'] = @por_grupo.map { |grupo| grupo[metric] }
       end
     end
+    if params[:by].present?
+      labels = @por_grupo.select{ |grupo| grupo['id'] == filter_option.to_i }
+      labels = labels.map { |grupo| grupo['nombre_grupo'] }.compact.uniq
+      #labels = @por_facultad.map { |facultad| facultad['nombre_facultad'] }.compact.uniq
+      datasets = metricas_presupuestos.map.with_index do |metric, idx|
+        {}.tap do |data|
+          data['label'] = metric.titleize
+          data['backgroundColor'] = metricas_colors[idx]
+          data['data'] = @por_grupo.select{ |grupo| grupo['id'] == filter_option.to_i }.map { |grupo| grupo[metric] }
+        end
+      end
+    end
     @data = { labels: labels, datasets: datasets }
   end
 
   def data_presupuesto_rubros
     @por_rubro = Presupuesto.por_rubro
+    filter_option = params[:by]
+    @options = @por_rubro.map { |elemento| [elemento['nombre_rubro'], elemento['id']] }
     labels = @por_rubro.map { |rubro| rubro['nombre_rubro'] }.compact.uniq
     datasets = metricas_presupuestos.map.with_index do |metric, idx|
       {}.tap do |data|
@@ -131,15 +162,27 @@ module PresupuestosHelper
         data['data'] = @por_rubro.map { |rubro| rubro[metric] }
       end
     end
+    if params[:by].present?
+      labels = @por_rubro.select{ |rubro| rubro['id'] == filter_option.to_i }
+      labels = labels.map { |rubro| rubro['nombre_rubro'] }.compact.uniq
+      #labels = @por_facultad.map { |facultad| facultad['nombre_facultad'] }.compact.uniq
+      datasets = metricas_presupuestos.map.with_index do |metric, idx|
+        {}.tap do |data|
+          data['label'] = metric.titleize
+          data['backgroundColor'] = metricas_colors[idx]
+          data['data'] = @por_rubro.select{ |rubro| rubro['id'] == filter_option.to_i }.map { |rubro| rubro[metric] }
+        end
+      end
+    end
     @data = { labels: labels, datasets: datasets }
   end
 
   def data_presupuesto_anios
     @por_anio = Presupuesto.por_anio
-    reporte = params[:reporte].to_sym
     filter_option = params[:by]
 
     labels = @por_anio.map { |anio| anio['anio_inicio'] }.compact.uniq
+    @options = labels
     datasets = metricas_presupuestos.map.with_index do |metric, idx|
       {}.tap do |data|
         data['label'] = metric.titleize
@@ -158,13 +201,28 @@ module PresupuestosHelper
         end
       end
     end
-
     @data = { labels: labels, datasets: datasets }
   end
   
   def report_by
-    reporte = params[:reporte].to_sym
+    reporte = params[:reporte]
     filter_option = params[:by]
-    @reports = Presupuesto.joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("extract(year from proyectos.fecha_inicio) = ?", filter_option)
+
+    if reporte === "por_facultad"
+      @reports = Presupuesto.joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("proyectos.facultad_id = ?", filter_option)
+    elsif reporte == "por_grupo" and params[:by].present?
+      @reports = Presupuesto.joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("proyectos.grupo_id = ?", filter_option)
+    elsif reporte == "por_semillero" and params[:by].present?
+      @reports = Presupuesto.joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("proyectos.semillero_id = ?", filter_option)
+    elsif reporte == "por_anio" and params[:by].present?
+        @reports = Presupuesto.joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("extract(year from proyectos.fecha_inicio) = ?", filter_option)
+    elsif reporte == "por_rubro" and params[:by].present?
+      @reports = Presupuesto.where("presupuestos.rubro_id = ?", filter_option)
+    elsif reporte == "por_proyecto" and params[:by].present?
+      @reports = Presupuesto.where("presupuestos.proyecto_id = ?", filter_option)
+    else
+      @reports = Presupuesto.all
+    end
+
   end
 end

@@ -54,7 +54,7 @@ class Presupuesto < ApplicationRecord
   def self.por_facultad
     sql_presupuestos = <<-SQL
       SELECT 
-        fa.nombre AS nombre_facultad,
+        fa.id, fa.nombre AS nombre_facultad,
         #{base_columns_for_presupuestos_report}
         FROM presupuestos pre
         INNER JOIN proyectos pr ON pr.id = pre.proyecto_id
@@ -63,7 +63,7 @@ class Presupuesto < ApplicationRecord
     SQL
     sql_presupuesto_inicial = <<-SQL
       SELECT
-        fa.nombre AS nombre_facultad,
+        fa.id, fa.nombre AS nombre_facultad,
         SUM(pri.valor_inicial) AS presupuesto_inicial
         FROM presupuesto_inicial_proyectos pri
         INNER JOIN proyectos pr ON pr.id = pri.proyecto_id
@@ -76,7 +76,7 @@ class Presupuesto < ApplicationRecord
   def self.por_grupo
     sql_presupuestos = <<-SQL
       SELECT 
-        gr.nombre AS nombre_grupo,
+        gr.id, gr.nombre AS nombre_grupo,
         #{base_columns_for_presupuestos_report}
         FROM presupuestos pre
         INNER JOIN proyectos pr ON pr.id = pre.proyecto_id
@@ -86,7 +86,7 @@ class Presupuesto < ApplicationRecord
 
     sql_presupuesto_inicial = <<-SQL
       SELECT 
-        gr.nombre AS nombre_grupo,
+        gr.id, gr.nombre AS nombre_grupo,
         SUM(pri.valor_inicial) AS presupuesto_inicial
         FROM presupuesto_inicial_proyectos pri
         INNER JOIN proyectos pr ON pr.id = pri.proyecto_id
@@ -100,7 +100,7 @@ class Presupuesto < ApplicationRecord
   def self.por_rubro
     sql_presupuestos = <<-SQL
       SELECT 
-        ru.nombre AS nombre_rubro,
+        ru.id, ru.nombre AS nombre_rubro,
         #{base_columns_for_presupuestos_report}
         FROM presupuestos pre
         INNER JOIN rubros ru ON ru.id = pre.rubro_id
@@ -108,7 +108,7 @@ class Presupuesto < ApplicationRecord
     SQL
     sql_presupuesto_inicial = <<-SQL
       SELECT 
-        ru.nombre AS nombre_rubro,
+        ru.id, ru.nombre AS nombre_rubro,
         SUM(pri.valor_inicial) AS presupuesto_inicial
         FROM presupuesto_inicial_proyectos pri
         INNER JOIN rubros ru ON ru.id = pri.rubro_id

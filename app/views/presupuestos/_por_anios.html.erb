@@ -1,5 +1,14 @@
 <div class="jumbotron">
-  <h1 class="display-4">Presupuesto por Año</h1>
+  <div class="header">
+    <h1 class="display-4">Presupuesto por Año</h1>  
+    <%= form_with url: presupuestos_path, method: :get do |form| %>
+      <% option = params[:reporte] %>
+      <%= form.label :query, "Filtrar" %>
+      <%= form.hidden_field :reporte, value: option %>
+      <%= form.select :by, @options %>
+      <%= form.submit "Filtrar" %>
+    <% end %>
+  </div>
   <%= bar_chart data, stacked_bar_opts%>
 </div>
 <br>

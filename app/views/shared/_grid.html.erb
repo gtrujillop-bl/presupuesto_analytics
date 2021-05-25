@@ -2,16 +2,7 @@
 
 <% if @reports.present? %>
   <p id="notice"><%= notice %></p>
-  <h1>Reporte de Presupuestos año</h1>
-  
-  <%= form_with url: presupuestos_path, method: :get do |form| %>
-    <% option = params[:reporte] %>
-    <%= form.label :query, "Filtrar" %>
-    <%= form.hidden_field :reporte, value: option %>
-    <%= form.select :by, ["2021", "2020", "2019", "2018"] %>
-    <%= form.submit "Filtrar" %>
-  <% end %>
-  
+  <h1>Reporte de Presupuestos año</h1>  
 
   <table class="table table-striped">
     <thead>
