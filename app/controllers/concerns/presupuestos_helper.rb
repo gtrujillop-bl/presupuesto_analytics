@@ -59,7 +59,7 @@ module PresupuestosHelper
   
   def presupuestos_agg
     if params[:reporte].blank?
-      @presupuestos = Presupuesto.all
+      @pagy, @presupuestos = pagy(Presupuesto.all)
       return
     end
 
@@ -98,16 +98,12 @@ module PresupuestosHelper
   def data_presupuesto_facultades
     @por_facultad = Presupuesto.por_facultad
     filter_option = params[:by]
-    # binding.pry
+    # @report_grid_data Recibe todos los datos que se van a presentar en la grilla
+    # @options Recibe las opciones de filtrados mostradas en el select dropdown
+    @report_grid_data = Presupuesto.grid_data(report_type: params[:reporte], filter_option: filter_option)
     @options = @por_facultad.map { |elemento| [elemento['nombre_facultad'], elemento['id']] }
-    labels = @por_facultad.map { |facultad| facultad['nombre_facultad'] }.compact.uniq
-    datasets = metricas_presupuestos.map.with_index do |metric, idx|
-      {}.tap do |data|
-        data['label'] = metric.titleize
-        data['backgroundColor'] = metricas_colors[idx]
-        data['data'] = @por_facultad.map { |facultad| facultad[metric] }
-      end
-    end
+
+    # si recibe parametros de filtrado, extrae los datos según la opción de filtrado seleccionada, en caso contrario devuelve todos los resultados
     if params[:by].present?
       labels = @por_facultad.select{ |facultad| facultad['id'] == filter_option.to_i }
       labels = labels.map { |facultad| facultad['nombre_facultad'] }.compact.uniq
@@ -119,6 +115,15 @@ module PresupuestosHelper
           data['data'] = @por_facultad.select{ |facultad| facultad['id'] == filter_option.to_i }.map { |facultad| facultad[metric] }
         end
       end
+    else
+      labels = @por_facultad.map { |facultad| facultad['nombre_facultad'] }.compact.uniq
+      datasets = metricas_presupuestos.map.with_index do |metric, idx|
+        {}.tap do |data|
+          data['label'] = metric.titleize
+          data['backgroundColor'] = metricas_colors[idx]
+          data['data'] = @por_facultad.map { |facultad| facultad[metric] }
+        end
+      end
     end
     @data = { labels: labels, datasets: datasets }
   end
@@ -126,15 +131,12 @@ module PresupuestosHelper
   def data_presupuesto_grupos
     @por_grupo = Presupuesto.por_grupo
     filter_option = params[:by]
+    # @report_grid_data Recibe todos los datos que se van a presentar en la grilla
+    # @options Recibe las opciones de filtrados mostradas en el select dropdown
+    @report_grid_data = Presupuesto.grid_data(report_type: params[:reporte], filter_option: filter_option)
     @options = @por_grupo.map { |elemento| [elemento['nombre_grupo'], elemento['id']] }
-    labels = @por_grupo.map { |grupo| grupo['nombre_grupo'] }.compact.uniq
-    datasets = metricas_presupuestos.map.with_index do |metric, idx|
-      {}.tap do |data|
-        data['label'] = metric.titleize
-        data['backgroundColor'] = metricas_colors[idx]
-        data['data'] = @por_grupo.map { |grupo| grupo[metric] }
-      end
-    end
+
+    # si recibe parametros de filtrado, extrae los datos según la opción de filtrado seleccionada, en caso contrario devuelve todos los resultados
     if params[:by].present?
       labels = @por_grupo.select{ |grupo| grupo['id'] == filter_option.to_i }
       labels = labels.map { |grupo| grupo['nombre_grupo'] }.compact.uniq
@@ -146,6 +148,15 @@ module PresupuestosHelper
           data['data'] = @por_grupo.select{ |grupo| grupo['id'] == filter_option.to_i }.map { |grupo| grupo[metric] }
         end
       end
+    else
+      labels = @por_grupo.map { |grupo| grupo['nombre_grupo'] }.compact.uniq
+      datasets = metricas_presupuestos.map.with_index do |metric, idx|
+        {}.tap do |data|
+          data['label'] = metric.titleize
+          data['backgroundColor'] = metricas_colors[idx]
+          data['data'] = @por_grupo.map { |grupo| grupo[metric] }
+        end
+      end
     end
     @data = { labels: labels, datasets: datasets }
   end
@@ -153,15 +164,12 @@ module PresupuestosHelper
   def data_presupuesto_rubros
     @por_rubro = Presupuesto.por_rubro
     filter_option = params[:by]
+    # @report_grid_data Recibe todos los datos que se van a presentar en la grilla
+    # @options Recibe las opciones de filtrados mostradas en el select dropdown
+    @report_grid_data = Presupuesto.grid_data(report_type: params[:reporte], filter_option: filter_option)
     @options = @por_rubro.map { |elemento| [elemento['nombre_rubro'], elemento['id']] }
-    labels = @por_rubro.map { |rubro| rubro['nombre_rubro'] }.compact.uniq
-    datasets = metricas_presupuestos.map.with_index do |metric, idx|
-      {}.tap do |data|
-        data['label'] = metric.titleize
-        data['backgroundColor'] = metricas_colors[idx]
-        data['data'] = @por_rubro.map { |rubro| rubro[metric] }
-      end
-    end
+
+    # si recibe parametros de filtrado, extrae los datos según la opción de filtrado seleccionada, en caso contrario devuelve todos los resultados
     if params[:by].present?
       labels = @por_rubro.select{ |rubro| rubro['id'] == filter_option.to_i }
       labels = labels.map { |rubro| rubro['nombre_rubro'] }.compact.uniq
@@ -173,6 +181,15 @@ module PresupuestosHelper
           data['data'] = @por_rubro.select{ |rubro| rubro['id'] == filter_option.to_i }.map { |rubro| rubro[metric] }
         end
       end
+    else
+      labels = @por_rubro.map { |rubro| rubro['nombre_rubro'] }.compact.uniq
+      datasets = metricas_presupuestos.map.with_index do |metric, idx|
+        {}.tap do |data|
+          data['label'] = metric.titleize
+          data['backgroundColor'] = metricas_colors[idx]
+          data['data'] = @por_rubro.map { |rubro| rubro[metric] }
+        end
+      end
     end
     @data = { labels: labels, datasets: datasets }
   end
@@ -180,16 +197,13 @@ module PresupuestosHelper
   def data_presupuesto_anios
     @por_anio = Presupuesto.por_anio
     filter_option = params[:by]
-
+    # @report_grid_data Recibe todos los datos que se van a presentar en la grilla
+    # @options Recibe las opciones de filtrados mostradas en el select dropdown
+    @report_grid_data = Presupuesto.grid_data(report_type: params[:reporte], filter_option: filter_option)
     labels = @por_anio.map { |anio| anio['anio_inicio'] }.compact.uniq
     @options = labels
-    datasets = metricas_presupuestos.map.with_index do |metric, idx|
-      {}.tap do |data|
-        data['label'] = metric.titleize
-        data['backgroundColor'] = metricas_colors[idx]
-        data['data'] = @por_anio.map { |anio| anio[metric] }
-      end
-    end
+
+    # si recibe parametros de filtrado, extrae los datos según la opción de filtrado seleccionada, en caso contrario devuelve todos los resultados
     if params[:by].present?
       labels = @por_anio.select{ |anio| anio['anio_inicio'] == filter_option.to_i }
       labels = labels.map { |anio| anio['anio_inicio'] }.compact.uniq
@@ -200,29 +214,16 @@ module PresupuestosHelper
           data['data'] = @por_anio.select{ |anio| anio['anio_inicio'] == filter_option.to_i }.map{ |anio| anio[metric] }
         end
       end
+    else
+      datasets = metricas_presupuestos.map.with_index do |metric, idx|
+        {}.tap do |data|
+          data['label'] = metric.titleize
+          data['backgroundColor'] = metricas_colors[idx]
+          data['data'] = @por_anio.map { |anio| anio[metric] }
+        end
+      end
     end
     @data = { labels: labels, datasets: datasets }
   end
   
-  def report_by
-    reporte = params[:reporte]
-    filter_option = params[:by]
-
-    if reporte === "por_facultad"
-      @reports = Presupuesto.joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("proyectos.facultad_id = ?", filter_option)
-    elsif reporte == "por_grupo" and params[:by].present?
-      @reports = Presupuesto.joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("proyectos.grupo_id = ?", filter_option)
-    elsif reporte == "por_semillero" and params[:by].present?
-      @reports = Presupuesto.joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("proyectos.semillero_id = ?", filter_option)
-    elsif reporte == "por_anio" and params[:by].present?
-        @reports = Presupuesto.joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("extract(year from proyectos.fecha_inicio) = ?", filter_option)
-    elsif reporte == "por_rubro" and params[:by].present?
-      @reports = Presupuesto.where("presupuestos.rubro_id = ?", filter_option)
-    elsif reporte == "por_proyecto" and params[:by].present?
-      @reports = Presupuesto.where("presupuestos.proyecto_id = ?", filter_option)
-    else
-      @reports = Presupuesto.all
-    end
-
-  end
 end

@@ -35,6 +35,23 @@ class Presupuesto < ApplicationRecord
   validates :reserva, numericality: true
   validates :valor_inicial, numericality: true
 
+  # Ids permitidos en las opciones de filtros
+  ACCEPTED_FILTER_OPTIONS = {
+    por_facultad: Facultad.pluck(:id),
+    por_grupo: Grupo.pluck(:id),
+    por_semillero: Semillero.pluck(:id),
+    por_anio: Semillero.pluck(:id),
+    por_rubro: Rubro.pluck(:id),
+    por_proyecto: Proyecto.pluck(:id)
+  }.freeze
+
+  scope :by_facultad, ->(facultad_id) { joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("proyectos.facultad_id = ?", facultad_id) }
+  scope :by_grupo, ->(grupo_id) { joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("proyectos.grupo_id = ?", grupo_id) }
+  scope :by_semillero, ->(semillero_id) { joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("proyectos.semillero_id = ?", semillero_id) }
+  scope :by_year, ->(year) { joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("extract(year from proyectos.fecha_inicio) = ?", year) }
+  scope :by_rubro, ->(rubro_id) { where("presupuestos.rubro_id = ?", rubro_id) }
+  scope :by_proyecto, ->(proyecto_id) { where("presupuestos.proyecto_id = ?", proyecto_id) }
+
   # def self.por_proyecto
   #   sql = <<-SQL
   #     SELECT 
@@ -167,6 +184,26 @@ class Presupuesto < ApplicationRecord
     
   end
   
+  # report_type es el tipo de reporte que se desea consultar
+  # filter_option son las opciones que tiene el tipo de reporte para filtrar
+  def self.grid_data(report_type: nil, filter_option: nil)
+    # Validar que los paràmetros que envìa el usuario son correctos
+    if report_type.downcase == "por_facultad" && filter_option.present?
+      by_facultad(filter_option)
+    elsif report_type.downcase == "por_grupo" && filter_option.present?
+      by_grupo(filter_option)
+    elsif report_type.downcase == "por_semillero" && filter_option.present?
+      by_semillero(filter_option)
+    elsif report_type.downcase == "por_anio" && filter_option.present?
+      by_year(filter_option)
+    elsif report_type.downcase == "por_rubro" && filter_option.present?
+      by_rubro(filter_option)
+    elsif report_type.downcase == "por_proyecto" && filter_option.present?
+      by_proyecto(filter_option)
+    else
+      Presupuesto.all
+    end
+  end
 
   private
 

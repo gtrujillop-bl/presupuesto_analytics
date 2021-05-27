@@ -1,9 +1,9 @@
 class PresupuestosController < ApplicationController
   include PresupuestosHelper
+  include Pagy::Backend
   rescue_from ActiveRecord::ActiveRecordError, with: :show_errors
 
   before_action :set_presupuesto, only: %i[ show edit update destroy ]
-  before_action :report_by, only: %i[ index ]
   
   # GET /presupuestos or /presupuestos.json
   def index

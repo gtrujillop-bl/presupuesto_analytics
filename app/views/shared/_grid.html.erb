@@ -1,8 +1,8 @@
 <div class="reports">
 
-<% if @reports.present? %>
+<% if @report_grid_data.present? %>
   <p id="notice"><%= notice %></p>
-  <h1>Reporte de Presupuestos año</h1>  
+  <h1>Reporte de Presupuestos</h1>  
 
   <table class="table table-striped">
     <thead>
@@ -19,7 +19,7 @@
     </thead>
 
     <tbody>
-      <% @reports.each do |presupuesto| %>
+      <% @report_grid_data.each do |presupuesto| %>
         <tr>
           <td><%= presupuesto.rubro_id %></td>
           <td><%= presupuesto.proyecto_id %></td>
