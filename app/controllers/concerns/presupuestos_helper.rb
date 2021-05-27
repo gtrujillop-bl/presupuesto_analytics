@@ -100,7 +100,7 @@ module PresupuestosHelper
     filter_option = params[:by]
     # @report_grid_data Recibe todos los datos que se van a presentar en la grilla
     # @options Recibe las opciones de filtrados mostradas en el select dropdown
-    @report_grid_data = Presupuesto.grid_data(report_type: params[:reporte], filter_option: filter_option)
+    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: filter_option))
     @options = @por_facultad.map { |elemento| [elemento['nombre_facultad'], elemento['id']] }
 
     # si recibe parametros de filtrado, extrae los datos según la opción de filtrado seleccionada, en caso contrario devuelve todos los resultados
@@ -133,7 +133,7 @@ module PresupuestosHelper
     filter_option = params[:by]
     # @report_grid_data Recibe todos los datos que se van a presentar en la grilla
     # @options Recibe las opciones de filtrados mostradas en el select dropdown
-    @report_grid_data = Presupuesto.grid_data(report_type: params[:reporte], filter_option: filter_option)
+    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: filter_option))
     @options = @por_grupo.map { |elemento| [elemento['nombre_grupo'], elemento['id']] }
 
     # si recibe parametros de filtrado, extrae los datos según la opción de filtrado seleccionada, en caso contrario devuelve todos los resultados
@@ -166,7 +166,7 @@ module PresupuestosHelper
     filter_option = params[:by]
     # @report_grid_data Recibe todos los datos que se van a presentar en la grilla
     # @options Recibe las opciones de filtrados mostradas en el select dropdown
-    @report_grid_data = Presupuesto.grid_data(report_type: params[:reporte], filter_option: filter_option)
+    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: filter_option))
     @options = @por_rubro.map { |elemento| [elemento['nombre_rubro'], elemento['id']] }
 
     # si recibe parametros de filtrado, extrae los datos según la opción de filtrado seleccionada, en caso contrario devuelve todos los resultados
@@ -199,7 +199,7 @@ module PresupuestosHelper
     filter_option = params[:by]
     # @report_grid_data Recibe todos los datos que se van a presentar en la grilla
     # @options Recibe las opciones de filtrados mostradas en el select dropdown
-    @report_grid_data = Presupuesto.grid_data(report_type: params[:reporte], filter_option: filter_option)
+    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: filter_option))
     labels = @por_anio.map { |anio| anio['anio_inicio'] }.compact.uniq
     @options = labels
 

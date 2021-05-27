@@ -26,6 +26,7 @@ require 'money'
 #
 class Presupuesto < ApplicationRecord
   require 'csv'
+  include Pagy::Backend
 
   belongs_to :rubro, foreign_key: :rubro_id
   belongs_to :proyecto, foreign_key: :proyecto_id
