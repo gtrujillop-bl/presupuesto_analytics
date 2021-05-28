@@ -1,27 +1,29 @@
-<%= form_with(model: rubro) do |form| %>
-  <% if rubro.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(rubro.errors.count, "error") %> prohibited this rubro from being saved:</h2>
+<div class="block-form-content">
+  <%= form_with(model: rubro) do |form| %>
+    <% if rubro.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(rubro.errors.count, "error") %> prohibited this rubro from being saved:</h2>
 
-      <ul>
-        <% rubro.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% rubro.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :nombre %>
+      <%= form.text_field :nombre %>
+    </div>
+
+    <div class="field">
+      <%= form.label :descripcion %>
+      <%= form.text_area :descripcion %>
+    </div>
+
+    <div class="actions">
+      <%= link_to 'Volver', rubros_path %> <%= form.submit "Crear rubro" %>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= form.label :nombre %>
-    <%= form.text_field :nombre %>
-  </div>
-
-  <div class="field">
-    <%= form.label :descripcion %>
-    <%= form.text_field :descripcion %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

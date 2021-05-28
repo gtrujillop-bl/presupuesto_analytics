@@ -1,32 +1,34 @@
-<%= form_with(model: investigador, url: investigadore_path(investigador), method: :post) do |form| %>
-  <% if investigador.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(investigador.errors.count, "error") %> prohibited this investigador from being saved:</h2>
+<div class="block-form-content">
+  <%= form_with(model: investigador, url: investigadores_path(), method: :post) do |form| %>
+    <% if investigador.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(investigador.errors.count, "error") %> prohibited this investigador from being saved:</h2>
 
-      <ul>
-        <% investigador.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% investigador.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :cedula %>
+      <%= form.number_field :cedula %>
+    </div>
+
+    <div class="field">
+      <%= form.label :nombres %>
+      <%= form.text_field :nombres %>
+    </div>
+
+    <div class="field">
+      <%= form.label :apellidos %>
+      <%= form.text_field :apellidos %>
+    </div>
+
+    <div class="actions">
+    <%= link_to 'Volver', investigadores_path %> <%= form.submit "Crear investigador" %>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= form.label :cedula %>
-    <%= form.number_field :cedula %>
-  </div>
-
-  <div class="field">
-    <%= form.label :nombres %>
-    <%= form.text_field :nombres %>
-  </div>
-
-  <div class="field">
-    <%= form.label :apellidos %>
-    <%= form.text_field :apellidos %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

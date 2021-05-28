@@ -1,37 +1,39 @@
-<%= form_with(model: presupuesto_inicial_proyecto) do |form| %>
-  <% if presupuesto_inicial_proyecto.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(presupuesto_inicial_proyecto.errors.count, "error") %> prohibited this presupuesto_inicial_proyecto from being saved:</h2>
+<div class="block-form-content">
+  <%= form_with(model: presupuesto_inicial_proyecto) do |form| %>
+    <% if presupuesto_inicial_proyecto.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(presupuesto_inicial_proyecto.errors.count, "error") %> prohibited this presupuesto_inicial_proyecto from being saved:</h2>
 
-      <ul>
-        <% presupuesto_inicial_proyecto.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% presupuesto_inicial_proyecto.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :rubro_id %>
+      <%= form.text_field :rubro_id %>
+    </div>
+
+    <div class="field">
+      <%= form.label :proyecto_id %>
+      <%= form.text_field :proyecto_id %>
+    </div>
+
+    <div class="field">
+      <%= form.label :descripcion %>
+      <%= form.text_field :descripcion %>
+    </div>
+
+    <div class="field">
+      <%= form.label :valor_inicial %>
+      <%= form.text_field :valor_inicial %>
+    </div>
+
+    <div class="actions">
+      <%= link_to 'Volver', presupuesto_inicial_proyectos_path %> <%= form.submit "Crear presupuesto inicial" %>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= form.label :rubro_id %>
-    <%= form.text_field :rubro_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :proyecto_id %>
-    <%= form.text_field :proyecto_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :descripcion %>
-    <%= form.text_field :descripcion %>
-  </div>
-
-  <div class="field">
-    <%= form.label :valor_inicial %>
-    <%= form.text_field :valor_inicial %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

@@ -12,9 +12,11 @@
 <% end %>
 <% if @presupuestos.present? %>
   <p id="notice"><%= notice %></p>
-  <h1>Lista de Presupuestos</h1>
-
-  <table class="table table-striped">
+  <div class="top-container">
+    <h1>Lista de Presupuestos</h1>
+    <%= link_to 'Crear presupuesto', new_presupuesto_path, :class => "badge badge-primary" %>
+  </div>
+  <table class="table table-hover">
     <thead>
       <tr>
         <th>Rubro</th>
@@ -31,19 +33,20 @@
     <tbody>
       <% @presupuestos.each do |presupuesto| %>
         <tr>
-          <td><%= presupuesto.rubro_id %></td>
+          <th scope="row"><%= presupuesto.rubro_id %></th>
           <td><%= presupuesto.proyecto_id %></td>
           <td><%= presupuesto.descripcion %></td>
-          <td><%= Money.from_amount(presupuesto.valor_inicial, 'COP').format %></td>
-          <td><%= Money.from_amount(presupuesto.disponibilidad, 'COP').format %></td>
-          <td><%= Money.from_amount(presupuesto.egreso, 'COP').format %></td>
-          <td><%= Money.from_amount(presupuesto.reserva, 'COP').format %></td>
-          <td><%= link_to 'Ver', presupuesto %></td>
-          <td><%= link_to 'Editar', edit_presupuesto_path(presupuesto) %></td>
-          <td><%= link_to 'Borrar', presupuesto, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td class="pr-money"><%= Money.from_amount(presupuesto.valor_inicial, 'COP').format %></td>
+          <td class="pr-money"><%= Money.from_amount(presupuesto.disponibilidad, 'COP').format %></td>
+          <td class="pr-money"><%= Money.from_amount(presupuesto.egreso, 'COP').format %></td>
+          <td class="pr-money"><%= Money.from_amount(presupuesto.reserva, 'COP').format %></td>
+          <td><%= link_to 'Ver', presupuesto, :class => "badge badge-info" %></td>
+          <td><%= link_to 'Editar', edit_presupuesto_path(presupuesto), :class => "badge badge-secondary" %></td>
+          <td>
+            <%= link_to 'Borrar', presupuesto, method: :delete, data: { confirm: 'Are you sure?' }, :class => "badge badge-danger" %>
+          </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-  <%= link_to 'Registrar Presupuesto', new_presupuesto_path %>
 <% end %>

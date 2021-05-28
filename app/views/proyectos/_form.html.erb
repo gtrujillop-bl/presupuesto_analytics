@@ -1,57 +1,59 @@
-<%= form_with(model: proyecto) do |form| %>
-  <% if proyecto.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(proyecto.errors.count, "error") %> prohibited this proyecto from being saved:</h2>
+<div class="block-form-content">
+  <%= form_with(model: proyecto) do |form| %>
+    <% if proyecto.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(proyecto.errors.count, "error") %> prohibited this proyecto from being saved:</h2>
 
-      <ul>
-        <% proyecto.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% proyecto.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :nombre %>
+      <%= form.text_field :nombre %>
+    </div>
+
+    <div class="field">
+      <%= form.label :fecha_inicio %>
+      <%= form.date_select :fecha_inicio %>
+    </div>
+
+    <div class="field">
+      <%= form.label :fecha_fin %>
+      <%= form.date_select :fecha_fin %>
+    </div>
+
+    <div class="field">
+      <%= form.label :facultad_id %>
+      <%= form.text_field :facultad_id %>
+    </div>
+
+    <div class="field">
+      <%= form.label :grupo_id %>
+      <%= form.text_field :grupo_id %>
+    </div>
+
+    <div class="field">
+      <%= form.label :semillero_id %>
+      <%= form.text_field :semillero_id %>
+    </div>
+
+    <div class="field">
+      <%= form.label :investigador_id %>
+      <%= form.text_field :investigador_id %>
+    </div>
+
+    <div class="field">
+      <%= form.label :numero_proyecto %>
+      <%= form.text_field :numero_proyecto %>
+    </div>
+
+    <div class="actions">
+      <%= link_to 'Volver', proyectos_path %> <%= form.submit "Crear proyecto" %>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= form.label :nombre %>
-    <%= form.text_field :nombre %>
-  </div>
-
-  <div class="field">
-    <%= form.label :fecha_inicio %>
-    <%= form.date_select :fecha_inicio %>
-  </div>
-
-  <div class="field">
-    <%= form.label :fecha_fin %>
-    <%= form.date_select :fecha_fin %>
-  </div>
-
-  <div class="field">
-    <%= form.label :facultad_id %>
-    <%= form.text_field :facultad_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :grupo_id %>
-    <%= form.text_field :grupo_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :semillero_id %>
-    <%= form.text_field :semillero_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :investigador_id %>
-    <%= form.text_field :investigador_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :numero_proyecto %>
-    <%= form.text_field :numero_proyecto %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>
