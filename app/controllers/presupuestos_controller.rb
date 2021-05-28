@@ -10,6 +10,8 @@ class PresupuestosController < ApplicationController
   def index
     if params[:ids].present?
       @pagy, @presupuestos = pagy(Presupuesto.where(id: params[:ids]))
+      totales = Presupuesto.where(id: params[:ids])
+      calc_totals(totales)
     else
       presupuestos_agg
     end

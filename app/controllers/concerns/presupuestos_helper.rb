@@ -61,11 +61,7 @@ module PresupuestosHelper
     if params[:reporte].blank?
       @pagy, @presupuestos = pagy(Presupuesto.all)
       totales = Presupuesto.all
-      @total_valor_inicial = totales.map(&:valor_inicial).compact.reduce(&:+)
-      @total_disponibilidad = totales.map(&:disponibilidad).compact.reduce(&:+)
-      @total_egreso = totales.map(&:egreso).compact.reduce(&:+)
-      @total_reserva = totales.map(&:reserva).compact.reduce(&:+)
-      # binding.pry
+      calc_totals(totales)
       return
     end
 
@@ -101,6 +97,19 @@ module PresupuestosHelper
   #   @data = { labels: labels, datasets: datasets }
   # end
 
+  def calc_totals(totales)
+    # Se optienen las sumatoria de Totales 
+    @total_valor_inicial = totales.map(&:valor_inicial).compact.reduce(&:+)
+    @total_disponibilidad = totales.map(&:disponibilidad).compact.reduce(&:+)
+    @total_egreso = totales.map(&:egreso).compact.reduce(&:+)
+    @total_reserva = totales.map(&:reserva).compact.reduce(&:+)
+  end
+
+  def set_pagination
+    # @report_grid_data Recibe todos los datos que se van a presentar en la grilla
+    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: params[:by]))
+  end
+
   def data_presupuesto_facultades
     @por_facultad = Presupuesto.por_facultad
     @filter_option = params[:by]
@@ -111,12 +120,7 @@ module PresupuestosHelper
     @options = @por_facultad.map { |elemento| [elemento['nombre_facultad'], elemento['id']] }
 
     # Se optienen las sumatoria de Totales 
-    totales = Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option)
-    @total_valor_inicial = totales.map(&:valor_inicial).compact.reduce(&:+)
-    @total_disponibilidad = totales.map(&:disponibilidad).compact.reduce(&:+)
-    @total_egreso = totales.map(&:egreso).compact.reduce(&:+)
-    @total_reserva = totales.map(&:reserva).compact.reduce(&:+)
-
+    calc_totals(Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option))
     # si recibe parametros de filtrado, extrae los datos según la opción de filtrado seleccionada, en caso contrario devuelve todos los resultados
     if params[:by].present?
       labels = @por_facultad.select{ |facultad| facultad['id'] == @filter_option.to_i }
@@ -146,18 +150,12 @@ module PresupuestosHelper
     @por_grupo = Presupuesto.por_grupo
     @filter_option = params[:by]
     @report = params[:reporte]
-    # @report_grid_data Recibe todos los datos que se van a presentar en la grilla
+    set_pagination
     # @options Recibe las opciones de filtrados mostradas en el select dropdown
-    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option))
     @options = @por_grupo.map { |elemento| [elemento['nombre_grupo'], elemento['id']] }
 
     # Se optienen las sumatoria de Totales 
-    totales = Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option)
-    @total_valor_inicial = totales.map(&:valor_inicial).compact.reduce(&:+)
-    @total_disponibilidad = totales.map(&:disponibilidad).compact.reduce(&:+)
-    @total_egreso = totales.map(&:egreso).compact.reduce(&:+)
-    @total_reserva = totales.map(&:reserva).compact.reduce(&:+)
-
+    calc_totals(Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option))
     # si recibe parametros de filtrado, extrae los datos según la opción de filtrado seleccionada, en caso contrario devuelve todos los resultados
     if params[:by].present?
       labels = @por_grupo.select{ |grupo| grupo['id'] == @filter_option.to_i }
@@ -187,18 +185,12 @@ module PresupuestosHelper
     @por_rubro = Presupuesto.por_rubro
     @filter_option = params[:by]
     @report = params[:reporte]
-    # @report_grid_data Recibe todos los datos que se van a presentar en la grilla
+    set_pagination
     # @options Recibe las opciones de filtrados mostradas en el select dropdown
-    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option))
     @options = @por_rubro.map { |elemento| [elemento['nombre_rubro'], elemento['id']] }
 
     # Se optienen las sumatoria de Totales 
-    totales = Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option)
-    @total_valor_inicial = totales.map(&:valor_inicial).compact.reduce(&:+)
-    @total_disponibilidad = totales.map(&:disponibilidad).compact.reduce(&:+)
-    @total_egreso = totales.map(&:egreso).compact.reduce(&:+)
-    @total_reserva = totales.map(&:reserva).compact.reduce(&:+)
-
+    calc_totals(Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option))
     # si recibe parametros de filtrado, extrae los datos según la opción de filtrado seleccionada, en caso contrario devuelve todos los resultados
     if params[:by].present?
       labels = @por_rubro.select{ |rubro| rubro['id'] == @filter_option.to_i }
@@ -228,19 +220,13 @@ module PresupuestosHelper
     @por_anio = Presupuesto.por_anio
     @filter_option = params[:by]
     @report = params[:reporte]
-    # @report_grid_data Recibe todos los datos que se van a presentar en la grilla
+    set_pagination
     # @options Recibe las opciones de filtrados mostradas en el select dropdown
-    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option))
     labels = @por_anio.map { |anio| anio['anio_inicio'] }.compact.uniq
     @options = labels
 
     # Se optienen las sumatoria de Totales 
-    totales = Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option)
-    @total_valor_inicial = totales.map(&:valor_inicial).compact.reduce(&:+)
-    @total_disponibilidad = totales.map(&:disponibilidad).compact.reduce(&:+)
-    @total_egreso = totales.map(&:egreso).compact.reduce(&:+)
-    @total_reserva = totales.map(&:reserva).compact.reduce(&:+)
-
+    calc_totals(Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option))
     # si recibe parametros de filtrado, extrae los datos según la opción de filtrado seleccionada, en caso contrario devuelve todos los resultados
     if params[:by].present?
       labels = @por_anio.select{ |anio| anio['anio_inicio'] == @filter_option.to_i }

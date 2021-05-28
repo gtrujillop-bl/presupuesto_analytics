@@ -3,10 +3,9 @@
   <div class="header">
     <h1 class="display-4">Presupuesto por Rubro</h1>
     <%= form_with url: presupuestos_path, method: :get do |form| %>
-      <% option = params[:reporte] %>
       <%= form.label :query, "Filtrar" %>
-      <%= form.hidden_field :reporte, value: option %>
-      <%= form.select :by, @options %>
+      <%= form.hidden_field :reporte, value: @report %>
+      <%= form.select :by, @options, selected: @filter_option %>
       <%= form.submit "Filtrar" %>
     <% end %>
   </div>
