@@ -2,7 +2,12 @@ Rails.application.routes.draw do
   resources :semilleros
   resources :rubros
   resources :proyectos
-  resources :presupuestos
+  resources :presupuestos do
+    collection do
+      post 'import'
+      get  'new_import'
+    end
+  end
   resources :presupuesto_inicial_proyectos
   resources :investigadores
   resources :grupos

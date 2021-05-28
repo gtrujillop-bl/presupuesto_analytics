@@ -1,0 +1,53 @@
+<div class="reports">
+
+<% if @report_grid_data.present? %>
+  <p id="notice"><%= notice %></p>
+  <h1>Tabla de Presupuestos</h1>  
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Rubro</th>
+        <th>Proyecto</th>
+        <th>Descripcion</th>
+        <th>Valor inicial</th>
+        <th>Disponibilidad</th>
+        <th>Egreso</th>
+        <th>Reserva</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @report_grid_data.each do |presupuesto| %>
+        <tr>
+          <td><%= presupuesto.rubro_id %></td>
+          <td><%= presupuesto.proyecto_id %></td>
+          <td><%= presupuesto.descripcion %></td>
+          <td><%= Money.from_amount(presupuesto.valor_inicial, 'COP').format %></td>
+          <td><%= Money.from_amount(presupuesto.disponibilidad, 'COP').format %></td>
+          <td><%= Money.from_amount(presupuesto.egreso, 'COP').format %></td>
+          <td><%= Money.from_amount(presupuesto.reserva, 'COP').format %></td>
+          <td><%= link_to 'Ver', presupuesto %></td>
+          <td><%= link_to 'Editar', edit_presupuesto_path(presupuesto) %></td>
+          <td><%= link_to 'Borrar', presupuesto, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>Totales</td>
+        <td><%= Money.from_amount(@total_valor_inicial, 'COP').format %></td>
+        <td><%= Money.from_amount(@total_disponibilidad, 'COP').format %></td>
+        <td><%= Money.from_amount(@total_egreso, 'COP').format %></td>
+        <td><%= Money.from_amount(@total_reserva, 'COP').format %></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <%== pagy_bootstrap_nav(@pagy) %>
+  <%= link_to 'Registrar Presupuesto', new_presupuesto_path %>
+<% end %>
+</div>
