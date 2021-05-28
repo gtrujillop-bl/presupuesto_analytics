@@ -7,11 +7,9 @@ class PresupuestosController < ApplicationController
   
   # GET /presupuestos or /presupuestos.json
   def index
-    if params[:ids].blank?
-      presupuestos_agg
-      # @presupuestos = Presupuesto.where(id: params[:ids])
+    if params[:ids].present?
+      @pagy, @presupuestos = pagy(Presupuesto.where(id: params[:ids]))
     else
-      option = params[:reporte].to_sym
       presupuestos_agg
     end
     

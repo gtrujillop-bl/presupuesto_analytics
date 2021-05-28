@@ -60,6 +60,12 @@ module PresupuestosHelper
   def presupuestos_agg
     if params[:reporte].blank?
       @pagy, @presupuestos = pagy(Presupuesto.all)
+      totales = Presupuesto.all
+      @total_valor_inicial = totales.map(&:valor_inicial).compact.reduce(&:+)
+      @total_disponibilidad = totales.map(&:disponibilidad).compact.reduce(&:+)
+      @total_egreso = totales.map(&:egreso).compact.reduce(&:+)
+      @total_reserva = totales.map(&:reserva).compact.reduce(&:+)
+      # binding.pry
       return
     end
 
@@ -97,22 +103,30 @@ module PresupuestosHelper
 
   def data_presupuesto_facultades
     @por_facultad = Presupuesto.por_facultad
-    filter_option = params[:by]
+    @filter_option = params[:by]
+    @report = params[:reporte]
     # @report_grid_data Recibe todos los datos que se van a presentar en la grilla
     # @options Recibe las opciones de filtrados mostradas en el select dropdown
-    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: filter_option))
+    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option))
     @options = @por_facultad.map { |elemento| [elemento['nombre_facultad'], elemento['id']] }
+
+    # Se optienen las sumatoria de Totales 
+    totales = Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option)
+    @total_valor_inicial = totales.map(&:valor_inicial).compact.reduce(&:+)
+    @total_disponibilidad = totales.map(&:disponibilidad).compact.reduce(&:+)
+    @total_egreso = totales.map(&:egreso).compact.reduce(&:+)
+    @total_reserva = totales.map(&:reserva).compact.reduce(&:+)
 
     # si recibe parametros de filtrado, extrae los datos según la opción de filtrado seleccionada, en caso contrario devuelve todos los resultados
     if params[:by].present?
-      labels = @por_facultad.select{ |facultad| facultad['id'] == filter_option.to_i }
+      labels = @por_facultad.select{ |facultad| facultad['id'] == @filter_option.to_i }
       labels = labels.map { |facultad| facultad['nombre_facultad'] }.compact.uniq
       #labels = @por_facultad.map { |facultad| facultad['nombre_facultad'] }.compact.uniq
       datasets = metricas_presupuestos.map.with_index do |metric, idx|
         {}.tap do |data|
           data['label'] = metric.titleize
           data['backgroundColor'] = metricas_colors[idx]
-          data['data'] = @por_facultad.select{ |facultad| facultad['id'] == filter_option.to_i }.map { |facultad| facultad[metric] }
+          data['data'] = @por_facultad.select{ |facultad| facultad['id'] == @filter_option.to_i }.map { |facultad| facultad[metric] }
         end
       end
     else
@@ -130,22 +144,30 @@ module PresupuestosHelper
 
   def data_presupuesto_grupos
     @por_grupo = Presupuesto.por_grupo
-    filter_option = params[:by]
+    @filter_option = params[:by]
+    @report = params[:reporte]
     # @report_grid_data Recibe todos los datos que se van a presentar en la grilla
     # @options Recibe las opciones de filtrados mostradas en el select dropdown
-    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: filter_option))
+    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option))
     @options = @por_grupo.map { |elemento| [elemento['nombre_grupo'], elemento['id']] }
+
+    # Se optienen las sumatoria de Totales 
+    totales = Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option)
+    @total_valor_inicial = totales.map(&:valor_inicial).compact.reduce(&:+)
+    @total_disponibilidad = totales.map(&:disponibilidad).compact.reduce(&:+)
+    @total_egreso = totales.map(&:egreso).compact.reduce(&:+)
+    @total_reserva = totales.map(&:reserva).compact.reduce(&:+)
 
     # si recibe parametros de filtrado, extrae los datos según la opción de filtrado seleccionada, en caso contrario devuelve todos los resultados
     if params[:by].present?
-      labels = @por_grupo.select{ |grupo| grupo['id'] == filter_option.to_i }
+      labels = @por_grupo.select{ |grupo| grupo['id'] == @filter_option.to_i }
       labels = labels.map { |grupo| grupo['nombre_grupo'] }.compact.uniq
       #labels = @por_facultad.map { |facultad| facultad['nombre_facultad'] }.compact.uniq
       datasets = metricas_presupuestos.map.with_index do |metric, idx|
         {}.tap do |data|
           data['label'] = metric.titleize
           data['backgroundColor'] = metricas_colors[idx]
-          data['data'] = @por_grupo.select{ |grupo| grupo['id'] == filter_option.to_i }.map { |grupo| grupo[metric] }
+          data['data'] = @por_grupo.select{ |grupo| grupo['id'] == @filter_option.to_i }.map { |grupo| grupo[metric] }
         end
       end
     else
@@ -163,22 +185,30 @@ module PresupuestosHelper
 
   def data_presupuesto_rubros
     @por_rubro = Presupuesto.por_rubro
-    filter_option = params[:by]
+    @filter_option = params[:by]
+    @report = params[:reporte]
     # @report_grid_data Recibe todos los datos que se van a presentar en la grilla
     # @options Recibe las opciones de filtrados mostradas en el select dropdown
-    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: filter_option))
+    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option))
     @options = @por_rubro.map { |elemento| [elemento['nombre_rubro'], elemento['id']] }
+
+    # Se optienen las sumatoria de Totales 
+    totales = Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option)
+    @total_valor_inicial = totales.map(&:valor_inicial).compact.reduce(&:+)
+    @total_disponibilidad = totales.map(&:disponibilidad).compact.reduce(&:+)
+    @total_egreso = totales.map(&:egreso).compact.reduce(&:+)
+    @total_reserva = totales.map(&:reserva).compact.reduce(&:+)
 
     # si recibe parametros de filtrado, extrae los datos según la opción de filtrado seleccionada, en caso contrario devuelve todos los resultados
     if params[:by].present?
-      labels = @por_rubro.select{ |rubro| rubro['id'] == filter_option.to_i }
+      labels = @por_rubro.select{ |rubro| rubro['id'] == @filter_option.to_i }
       labels = labels.map { |rubro| rubro['nombre_rubro'] }.compact.uniq
       #labels = @por_facultad.map { |facultad| facultad['nombre_facultad'] }.compact.uniq
       datasets = metricas_presupuestos.map.with_index do |metric, idx|
         {}.tap do |data|
           data['label'] = metric.titleize
           data['backgroundColor'] = metricas_colors[idx]
-          data['data'] = @por_rubro.select{ |rubro| rubro['id'] == filter_option.to_i }.map { |rubro| rubro[metric] }
+          data['data'] = @por_rubro.select{ |rubro| rubro['id'] == @filter_option.to_i }.map { |rubro| rubro[metric] }
         end
       end
     else
@@ -196,22 +226,30 @@ module PresupuestosHelper
 
   def data_presupuesto_anios
     @por_anio = Presupuesto.por_anio
-    filter_option = params[:by]
+    @filter_option = params[:by]
+    @report = params[:reporte]
     # @report_grid_data Recibe todos los datos que se van a presentar en la grilla
     # @options Recibe las opciones de filtrados mostradas en el select dropdown
-    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: filter_option))
+    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option))
     labels = @por_anio.map { |anio| anio['anio_inicio'] }.compact.uniq
     @options = labels
 
+    # Se optienen las sumatoria de Totales 
+    totales = Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option)
+    @total_valor_inicial = totales.map(&:valor_inicial).compact.reduce(&:+)
+    @total_disponibilidad = totales.map(&:disponibilidad).compact.reduce(&:+)
+    @total_egreso = totales.map(&:egreso).compact.reduce(&:+)
+    @total_reserva = totales.map(&:reserva).compact.reduce(&:+)
+
     # si recibe parametros de filtrado, extrae los datos según la opción de filtrado seleccionada, en caso contrario devuelve todos los resultados
     if params[:by].present?
-      labels = @por_anio.select{ |anio| anio['anio_inicio'] == filter_option.to_i }
+      labels = @por_anio.select{ |anio| anio['anio_inicio'] == @filter_option.to_i }
       labels = labels.map { |anio| anio['anio_inicio'] }.compact.uniq
       datasets = metricas_presupuestos.map.with_index do |metric, idx|
         {}.tap do |data|
           data['label'] = metric.titleize
           data['backgroundColor'] = metricas_colors[idx]
-          data['data'] = @por_anio.select{ |anio| anio['anio_inicio'] == filter_option.to_i }.map{ |anio| anio[metric] }
+          data['data'] = @por_anio.select{ |anio| anio['anio_inicio'] == @filter_option.to_i }.map{ |anio| anio[metric] }
         end
       end
     else
