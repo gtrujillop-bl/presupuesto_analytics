@@ -4,6 +4,7 @@ class PresupuestosController < ApplicationController
   rescue_from ActiveRecord::ActiveRecordError, with: :show_errors
 
   before_action :set_presupuesto, only: %i[ show edit update destroy ]
+  before_action :set_collection_select, only: %i[ new edit ]
   
   # GET /presupuestos or /presupuestos.json
   def index
@@ -69,6 +70,12 @@ class PresupuestosController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_presupuesto
       @presupuesto = Presupuesto.find(params[:id])
+    end
+  
+    # Use callbacks to share common setup or constraints between actions.
+    def set_collection_select
+      @rubros = Rubro.all
+      @proyectos = Proyecto.all
     end
 
     # Only allow a list of trusted parameters through.
