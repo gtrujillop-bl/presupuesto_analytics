@@ -1,0 +1,8 @@
+<%= flash[:notice] %>
+<div>
+  <h4>Cargue su CSV de valores iniciales</h4>
+  <%= form_tag import_presupuesto_inicial_proyectos_path, multipart: true do %>
+    <%= file_field_tag :file %>
+    <%= submit_tag "Import file" %>
+  <% end %>
+</div>

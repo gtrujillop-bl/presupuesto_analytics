@@ -19,15 +19,24 @@
         <td><%= presupuesto_inicial_proyecto.rubro_id %></td>
         <td><%= presupuesto_inicial_proyecto.proyecto_id %></td>
         <td><%= presupuesto_inicial_proyecto.descripcion %></td>
-        <td><%= presupuesto_inicial_proyecto.valor_inicial %></td>
+        <td class="pr-money"><%= Money.from_amount(presupuesto_inicial_proyecto.valor_inicial, 'COP').format %></td>
         <td><%= link_to 'Ver', presupuesto_inicial_proyecto %></td>
         <td><%= link_to 'Editar', edit_presupuesto_inicial_proyecto_path(presupuesto_inicial_proyecto) %></td>
         <td><%= link_to 'Borrar', presupuesto_inicial_proyecto, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Totales</td>
+      <td><%= Money.from_amount(@total_valor_inicial, 'COP').format %></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
   </tbody>
 </table>
-
+<%== pagy_bootstrap_nav(@pagy) %>
 <br>
 
 <%= link_to 'New Presupuesto Inicial Proyecto', new_presupuesto_inicial_proyecto_path %>
