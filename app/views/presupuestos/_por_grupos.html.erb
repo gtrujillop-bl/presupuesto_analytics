@@ -1,7 +1,7 @@
 <div class="jumbotron">
   <p id="notice"><%= notice %></p>
-  <div class="header">
-    <h1 class="display-4">Presupuesto por Grupo</h1>  
+  <div class="top-container">
+    <h1>Presupuesto por Grupo</h1>
     <%= form_with url: presupuestos_path, method: :get do |form| %>
       <%= form.label :query, "Filtrar" %>
       <%= form.hidden_field :reporte, value: @report %>

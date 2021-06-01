@@ -1,6 +1,7 @@
 class PresupuestoInicialProyectosController < ApplicationController
   include Pagy::Backend
   before_action :set_presupuesto_inicial_proyecto, only: %i[ show edit update destroy ]
+  before_action :set_collection_select, only: %i[ new edit ]
   rescue_from ActiveRecord::ActiveRecordError, with: :show_errors
 
   # GET /presupuesto_inicial_proyectos or /presupuesto_inicial_proyectos.json
@@ -83,6 +84,12 @@ class PresupuestoInicialProyectosController < ApplicationController
     def calc_totals(totales)
       # Se optienen las sumatoria de Totales 
       @total_valor_inicial = totales.map(&:valor_inicial).compact.reduce(&:+)
+    end
+  
+    # Use callbacks to share common setup or constraints between actions.
+    def set_collection_select
+      @rubros = Rubro.all
+      @proyectos = Proyecto.all
     end
 
     # Only allow a list of trusted parameters through.
