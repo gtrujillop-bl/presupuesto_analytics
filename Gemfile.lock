@@ -126,6 +126,7 @@ GEM
     nokogiri (1.11.3)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
+    pagy (3.13.0)
     pg (1.2.3)
     popper_js (2.9.2)
     pry (0.13.1)
@@ -259,6 +260,7 @@ DEPENDENCIES
   jquery-rails
   listen (~> 3.3)
   money
+  pagy (~> 3.5)
   pg (~> 1.1)
   pry-byebug
   puma (~> 5.0)

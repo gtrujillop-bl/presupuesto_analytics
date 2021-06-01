@@ -1,12 +1,21 @@
 class PresupuestosController < ApplicationController
   include PresupuestosHelper
+  include Pagy::Backend
+  rescue_from ActiveRecord::ActiveRecordError, with: :show_errors
 
   before_action :set_presupuesto, only: %i[ show edit update destroy ]
   before_action :set_collection_select, only: %i[ new edit ]
   
   # GET /presupuestos or /presupuestos.json
   def index
-    presupuestos_agg
+    if params[:ids].present?
+      @pagy, @presupuestos = pagy(Presupuesto.where(id: params[:ids]))
+      totales = Presupuesto.where(id: params[:ids])
+      calc_totals(totales)
+    else
+      presupuestos_agg
+    end
+    
   end
 
   # GET /presupuestos/1 or /presupuestos/1.json
@@ -50,6 +59,15 @@ class PresupuestosController < ApplicationController
     end
   end
 
+  def new_import
+  end
+
+  def import
+    presupuestos_ids = Presupuesto.csv_import(params[:file])
+    redirect_to presupuestos_path(ids: presupuestos_ids), notice: "Successfully Imported Data!!"
+  end
+
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_presupuesto
@@ -65,5 +83,9 @@ class PresupuestosController < ApplicationController
     # Only allow a list of trusted parameters through.
     def presupuesto_params
       params.require(:presupuesto).permit(:rubro_id, :proyecto_id, :valor_inicial, :disponibilidad, :descripcion, :egreso, :reserva)
+    end
+
+    def show_errors(exception)
+      render json: exception, status: 400
     end
 end

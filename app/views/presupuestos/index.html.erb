@@ -1,14 +1,19 @@
 <% require 'money' %>
 <% if @por_proyecto.present? %>
   <%= render 'por_proyectos', data: @data %>
+  <%= render 'shared/grid' %>
 <% elsif @por_facultad.present? %>
   <%= render 'por_facultades', data: @data %>
+  <%= render 'shared/grid' %>
 <% elsif @por_grupo.present? %>
   <%= render 'por_grupos', data: @data %>
+  <%= render 'shared/grid' %>
 <% elsif @por_rubro.present? %>
   <%= render 'por_rubros', data: @data %>
+  <%= render 'shared/grid' %>
 <% elsif @por_anio.present? %>
   <%= render 'por_anios', data: @data %>
+  <%= render 'shared/grid' %>
 <% end %>
 <% if @presupuestos.present? %>
   <p id="notice"><%= notice %></p>
@@ -47,6 +52,20 @@
           </td>
         </tr>
       <% end %>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>Totales</td>
+        <td><%= Money.from_amount(@total_valor_inicial, 'COP').format %></td>
+        <td><%= Money.from_amount(@total_disponibilidad, 'COP').format %></td>
+        <td><%= Money.from_amount(@total_egreso, 'COP').format %></td>
+        <td><%= Money.from_amount(@total_reserva, 'COP').format %></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
+  <%== pagy_bootstrap_nav(@pagy) %>
+  <%= link_to 'Registrar Presupuesto', new_presupuesto_path %>
 <% end %>
