@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root to: "welcome#index"
   resources :semilleros
   resources :rubros
   resources :proyectos
@@ -8,7 +9,12 @@ Rails.application.routes.draw do
       get  'new_import'
     end
   end
-  resources :presupuesto_inicial_proyectos
+  resources :presupuesto_inicial_proyectos do
+    collection do
+      post 'import'
+      get  'new_import'
+    end
+  end
   resources :investigadores
   resources :grupos
   resources :facultades
