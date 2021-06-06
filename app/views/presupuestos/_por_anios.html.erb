@@ -6,7 +6,7 @@
       <%= form.label :query, "Filtrar" %>
       <%= form.hidden_field :reporte, value: @report %>
       <%= form.select :by, @options, selected: @filter_option %>
-      <%= form.submit "Filtrar" %>
+      <%= form.submit "Filtrar", :class => "badge-primary" %>
     <% end %>
   </div>
   <%= bar_chart data, stacked_bar_opts%>

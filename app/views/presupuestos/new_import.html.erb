@@ -1,8 +1,14 @@
-<%= flash[:notice] %>
-<div>
-  <h4>Import data from CSV file</h4>
-  <%= form_tag import_presupuestos_path, multipart: true do %>
-    <%= file_field_tag :file %>
-    <%= submit_tag "Import file" %>
-  <% end %>
+<h1>Cargue su CSV de Presupuesto</h1>
+<div class="block-form-content">
+  <%= flash[:notice] %>
+  <div>
+    <%= form_tag import_presupuestos_path, multipart: true do %>
+      <div class="field">
+        <%= file_field_tag :file %>
+      </div>
+      <div class="actions">
+        <%= submit_tag "Cargar Archivo CSV" %>
+      </div>
+    <% end %>
+  </div>
 </div>
