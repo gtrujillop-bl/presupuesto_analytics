@@ -29,6 +29,15 @@ body {
     font-family: $title;
     font-weight: normal;
   }
+  .row {
+    width: 100%;
+    .horizontal-chart canvas {
+      height: 300px;
+    }
+    .radar-chart canvas {
+      height: 600px;
+    }
+  }
   .sidebar .nav-link {
     font-weight: 500;
     color: $acceGris;
