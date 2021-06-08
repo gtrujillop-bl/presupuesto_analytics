@@ -22,39 +22,48 @@ RSpec.describe Presupuesto, type: :model do
   end
 
   describe '.por_facultad' do
-    before do
-      presupuesto_1
-      presupuesto_2
-      presupuesto_3
-      presupuesto_4
+    
+    context "when there's data" do
+      before do
+        presupuesto_1
+        presupuesto_2
+        presupuesto_3
+        presupuesto_4
+      end
+  
+      let(:expected) do
+        [
+          {
+            anio_inicio: 0,
+            disponibilidad_total: 0.0,
+            id: facultad_1.id,
+            nombre_facultad: facultad_1.nombre,
+            egreso_total: 5000000.0,
+            presupuesto_inicial: 11000000,
+            reserva_total: 500000.0
+          },
+          {
+            anio_inicio: 0,
+            disponibilidad_total: 0.0,
+            id: facultad_2.id,
+            nombre_facultad: facultad_2.nombre,
+            egreso_total: 20000000.0,
+            presupuesto_inicial: 42000000,
+            reserva_total: 200000.0
+          }
+        ]
+      end 
+  
+      it 'returns presupuestos grouped by facultad' do
+        results = described_class.por_facultad.map(&:symbolize_keys)
+        expect(results).to match_array expected
+      end
     end
 
-    let(:expected) do
-      [
-        {
-          anio_inicio: 0,
-          disponibilidad_total: 0.0,
-          id: facultad_1.id,
-          nombre_facultad: facultad_1.nombre,
-          egreso_total: 5000000.0,
-          presupuesto_inicial: 11000000,
-          reserva_total: 500000.0
-        },
-        {
-          anio_inicio: 0,
-          disponibilidad_total: 0.0,
-          id: facultad_2.id,
-          nombre_facultad: facultad_2.nombre,
-          egreso_total: 20000000.0,
-          presupuesto_inicial: 42000000,
-          reserva_total: 200000.0
-        }
-      ]
-    end 
-
-    it 'returns presupuestos grouped by facultad' do
-      results = described_class.por_facultad.map(&:symbolize_keys)
-      expect(results).to match_array expected
+    context "when there's no data" do
+      it "returns empty array" do
+        expect(described_class.por_facultad).to be_empty
+      end
     end
   end
 end

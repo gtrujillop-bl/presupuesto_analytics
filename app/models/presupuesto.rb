@@ -157,7 +157,6 @@ class Presupuesto < ApplicationRecord
   end
 
   def self.csv_import(file)
-    
     Presupuesto.transaction do
       presupuestos = []
       begin
@@ -182,7 +181,6 @@ class Presupuesto < ApplicationRecord
         raise ActiveRecord::ActiveRecordError.new("No se pudo importar CSV #{e.message}")
       end
     end
-    
   end
   
   # report_type es el tipo de reporte que se desea consultar
