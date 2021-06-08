@@ -41,11 +41,11 @@ Este proyecto fué desarrollado netamente con software libre. De igual manera, s
   * Correr `gem install bundler`
   * Correr `bundle install`
   * Configurar la Base de Datos
-    * Configurar las variables de entorno en `/etc/profile` ya que el archivo `database.yml` depende de las mismas
+    * Configurar las variables de entorno agregándolas al final del archivo `/etc/profile` ya que el archivo `database.yml` depende de las mismas
       * export POSTGRES_USER='uniremington_user'
-        export POSTGRES_PASSWORD='admin'
-        export DATABASE_HOST='127.0.0.1'
-        export POSTGRES_PORT='5433'
+      * export POSTGRES_PASSWORD='admin'
+      * export DATABASE_HOST='127.0.0.1'
+      * export POSTGRES_PORT='5433'
     * Correr `bundle exec rake db:create` y luego `rake db:schema:load`
   * Correr el servidor con `bundle exec rails s -p3010`
 
