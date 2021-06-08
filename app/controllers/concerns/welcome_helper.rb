@@ -144,17 +144,13 @@ module WelcomeHelper
 
   def doughnut_chart_opts
     {
-      stacked: true, 
+      stacked: true,
+      aspectRatio: 2,
       responsive: true,
       legend: { position: 'bottom' },
-      maintainAspectRatio: false,
+      maintainAspectRatio: true,
       tooltips: {
-        enabled: true,
-        callbacks: {
-          label: 'function(tooltipItem) {
-            return "$" + tooltipItem.yLabel.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
-          }'
-        }
+        enabled: true
       }
     }
   end
@@ -178,26 +174,18 @@ module WelcomeHelper
         yAxes: [{
           stacked: false,
           ticks: {
-            beginAtZero: true,
-            callback: 'function(value, index, values) {
-              return "$" + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
-            }'
+            beginAtZero: true
           },
           type: 'linear',
           scaleLabel: {
 
           }
         }]
-      }, 
-      legend: { position: 'bottom' },
+      },
+      legend: { position: 'top' },
       maintainAspectRatio: false,
       tooltips: {
-        enabled: true,
-        callbacks: {
-          label: 'function(tooltipItem) {
-            return "$" + tooltipItem.yLabel.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
-          }'
-        }
+        enabled: true
       }
     }
   end
@@ -236,7 +224,7 @@ module WelcomeHelper
           }
         }]
       }, 
-      legend: { position: 'bottom' },
+      legend: { position: 'top' },
       maintainAspectRatio: false,
       tooltips: {
         enabled: true,

@@ -3,20 +3,37 @@
 </div>
 <div class="row">
   <div class="col-12">
+    <h4>Número de proyectos por año</h4>
     <%= line_chart  @data_lines, line_chart_opts %>
   </div>
 </div>
 <div class="row">
   <div class="col-12">
+    <h3>Grafico de radar por rubro y facultad</h3>
+  </div>
+  <div class="col-12">
     <div class="row">
-      <div class="col-6 radar-chart"><%= radar_chart  @radar_data_inicial, radar_chart_opts %></div>
-      <div class="col-6 radar-chart"><%= radar_chart  @radar_data_disponibilidad, radar_chart_opts %></div>
-      <div class="col-6 radar-chart"><%= radar_chart  @radar_data_reserva, radar_chart_opts %></div>
-      <div class="col-6 radar-chart"><%= radar_chart  @radar_data_egreso, radar_chart_opts %></div>
+      <div class="col-6 radar-chart">
+        <h4>Presupuesto Inicial</h4>
+        <%= radar_chart  @radar_data_inicial, radar_chart_opts %>
+      </div>
+      <div class="col-6 radar-chart">
+      <h4>Disponibilidad</h4>
+        <%= radar_chart  @radar_data_disponibilidad, radar_chart_opts %>
+      </div>
+      <div class="col-6 radar-chart">
+        <h4>Reserva</h4>
+        <%= radar_chart  @radar_data_reserva, radar_chart_opts %>
+      </div>
+      <div class="col-6 radar-chart">
+        <h4>Egreso</h4>
+        <%= radar_chart  @radar_data_egreso, radar_chart_opts %>
+      </div>
     </div>
     
   </div>
   <div class="col-12">
+    <h3>Distribución de los pesupuestos por rubro</h3>
     <div class="row">
       <div class="col-6 horizontal-chart"><%= horizontal_bar_chart @horizontal_inicial, horizontal_bar_opts %></div>
       <div class="col-6 horizontal-chart"><%= horizontal_bar_chart @horizontal_disponibilidad, horizontal_bar_opts %></div>
@@ -26,6 +43,7 @@
   </div>
 </div>
 <div class="row">
+  <h3>Distribución de los pesupuestos por año</h3>
   <% if @results_presupuesto.present? %>
     <% @results_presupuesto.each do |presupuesto| %>
       <% 
@@ -47,7 +65,7 @@
       @data_doughnut = { labels: labels, datasets: datasets }
       
       %>
-      <div class="col-6">
+      <div class="col-3 donuts-chart">
         <h4><%= presupuesto['anio_inicio'].to_s %></h4>
         <%= doughnut_chart @data_doughnut, doughnut_chart_opts %>
       </div>
