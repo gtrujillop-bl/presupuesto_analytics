@@ -48,3 +48,18 @@ Este proyecto fué desarrollado netamente con software libre. De igual manera, s
         export POSTGRES_PORT='5433'
     * Correr `bundle exec rake db:create` y luego `rake db:schema:load`
   * Correr el servidor con `bundle exec rails s -p3010`
+
+
+## Uso de la aplicación
+
+### Lista de Presupuestos
+![Selection_289](https://user-images.githubusercontent.com/4950300/121256277-fc9ded00-c871-11eb-9bb6-eeee5b9daf26.png)
+
+### Vistas generales (e.j. Por Facultad)
+![Selection_290](https://user-images.githubusercontent.com/4950300/121256443-2e16b880-c872-11eb-8f5a-3b9555537bcb.png)
+
+![Selection_291](https://user-images.githubusercontent.com/4950300/121256494-3cfd6b00-c872-11eb-9470-2ddcc4bbf527.png)
+
+
+
+
