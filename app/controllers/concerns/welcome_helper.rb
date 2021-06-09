@@ -225,7 +225,7 @@ module WelcomeHelper
         }]
       }, 
       legend: { position: 'top' },
-      maintainAspectRatio: false,
+      maintainAspectRatio: true,
       tooltips: {
         enabled: true,
         callbacks: {

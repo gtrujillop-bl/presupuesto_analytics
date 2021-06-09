@@ -31,11 +31,49 @@ body {
   }
   .row {
     width: 100%;
-    .horizontal-chart canvas {
-      height: 300px;
+    .horizontal-chart {
+      border: thin solid #ddd;
+      padding: 10px;
+      &.item-3,
+      &.item-4 {
+        border-top: 0;
+      }
+      &.odd {
+        border-right: 0;
+      }
+      canvas {
+        height: 300px;
+      }
     }
-    .radar-chart canvas {
-      height: 600px;
+    .radar-chart {
+      padding: 15px;
+      position: relative;
+      &.odd::after {
+        content: "";
+        position: absolute;
+        width: 1px;
+        height: 30%;
+        display: block;
+        top: 35%;
+        right: -5px;
+        border-right: thin dotted rgba(57, 102, 150, 0.5);
+      }
+      canvas {
+        height: 500px;
+      }
+    }
+    h3 {
+      color: #25CCF7;
+      margin-top: 25px;
+    }
+    h4 {
+      color: #777;
+      font-size: 1.2em;
+      margin-top: 0.5rem;
+    }
+    .bottom-border {
+      border-bottom: thin solid rgba(57, 102, 150, 0.5);
+      padding-bottom: 25px;
     }
   }
   .sidebar .nav-link {
