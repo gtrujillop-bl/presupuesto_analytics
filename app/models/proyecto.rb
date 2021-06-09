@@ -10,6 +10,7 @@
 #  facultad_id     :bigint
 #  grupo_id        :bigint
 #  investigador_id :bigint
+#  programa_id     :bigint
 #  semillero_id    :bigint
 #
 # Indexes
@@ -21,6 +22,7 @@
 #  index_proyectos_on_facultad_id      (facultad_id)
 #  index_proyectos_on_grupo_id         (grupo_id)
 #  index_proyectos_on_investigador_id  (investigador_id)
+#  index_proyectos_on_programa_id      (programa_id)
 #  index_proyectos_on_semillero_id     (semillero_id)
 #
 # Foreign Keys
@@ -29,12 +31,14 @@
 #  fk_proyectos_grupos          (grupo_id => grupos.id)
 #  fk_proyectos_investigadores  (investigador_id => investigadores.id)
 #  fk_proyectos_semilleros      (semillero_id => semilleros.id)
+#  fk_rails_...                 (programa_id => programas.id)
 #
 class Proyecto < ApplicationRecord
   belongs_to :facultad, foreign_key: :facultad_id
   belongs_to :grupo, foreign_key: :grupo_id
   belongs_to :semillero, foreign_key: :semillero_id
   belongs_to :investigador, foreign_key: :investigador_id
+  belongs_to :programa, foreign_key: :programa_id, required: false
   has_many :rubros, through: :presupuestos
 
   validates :fecha_inicio, presence: true

@@ -5,6 +5,9 @@
 <% elsif @por_facultad.present? %>
   <%= render 'por_facultades', data: @data %>
   <%= render 'shared/grid' %>
+<% elsif @por_programas.present? %>
+  <%= render 'por_programas', data: @data %>
+  <%= render 'shared/grid' %>
 <% elsif @por_grupo.present? %>
   <%= render 'por_grupos', data: @data %>
   <%= render 'shared/grid' %>
