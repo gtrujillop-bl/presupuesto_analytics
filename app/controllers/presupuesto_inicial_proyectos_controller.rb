@@ -1,9 +1,20 @@
 class PresupuestoInicialProyectosController < ApplicationController
+  include Pagy::Backend
   before_action :set_presupuesto_inicial_proyecto, only: %i[ show edit update destroy ]
+  before_action :set_collection_select, only: %i[ new edit ]
+  rescue_from ActiveRecord::ActiveRecordError, with: :show_errors
 
   # GET /presupuesto_inicial_proyectos or /presupuesto_inicial_proyectos.json
   def index
-    @presupuesto_inicial_proyectos = PresupuestoInicialProyecto.all
+    if params[:ids].present?
+      @pagy, @presupuestos = pagy(PresupuestoInicialProyecto.where(id: params[:ids]))
+      totales = PresupuestoInicialProyecto.where(id: params[:ids])
+      calc_totals(totales)
+    else
+      @pagy, @presupuesto_inicial_proyectos = pagy(PresupuestoInicialProyecto.all)
+      totales = PresupuestoInicialProyecto.all
+      calc_totals(totales)
+    end
   end
 
   # GET /presupuesto_inicial_proyectos/1 or /presupuesto_inicial_proyectos/1.json
@@ -56,14 +67,37 @@ class PresupuestoInicialProyectosController < ApplicationController
     end
   end
 
+  def new_import
+  end
+
+  def import
+    presupuesto_inicial_ids = PresupuestoInicialProyecto.csv_import_proyecto(params[:file])
+    redirect_to presupuesto_inicial_proyectos_path(ids: presupuesto_inicial_ids), notice: "Successfully Imported Data!!"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_presupuesto_inicial_proyecto
       @presupuesto_inicial_proyecto = PresupuestoInicialProyecto.find(params[:id])
     end
 
+    def calc_totals(totales)
+      # Se optienen las sumatoria de Totales 
+      @total_valor_inicial = totales.map(&:valor_inicial).compact.reduce(&:+)
+    end
+  
+    # Use callbacks to share common setup or constraints between actions.
+    def set_collection_select
+      @rubros = Rubro.all
+      @proyectos = Proyecto.all
+    end
+
     # Only allow a list of trusted parameters through.
     def presupuesto_inicial_proyecto_params
       params.require(:presupuesto_inicial_proyecto).permit(:rubro_id, :proyecto_id, :descripcion, :valor_inicial)
+    end
+
+    def show_errors(exception)
+      render json: exception, status: 400
     end
 end

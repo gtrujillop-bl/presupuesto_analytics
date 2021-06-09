@@ -1,0 +1,74 @@
+<div class="top-container">
+    <h1>Tablero de Control</h1>
+</div>
+<div class="row">
+  <div class="col-12 bottom-border">
+    <h4>Número de proyectos por año</h4>
+    <%= line_chart  @data_lines, line_chart_opts %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <h3>Grafico de radar por rubro y facultad</h3>
+  </div>
+  <div class="col-12 bottom-border">
+    <div class="row">
+      <div class="col-6 radar-chart odd">
+        <h4>Presupuesto Inicial</h4>
+        <%= radar_chart  @radar_data_inicial, radar_chart_opts %>
+      </div>
+      <div class="col-6 radar-chart even">
+      <h4>Disponibilidad</h4>
+        <%= radar_chart  @radar_data_disponibilidad, radar_chart_opts %>
+      </div>
+      <div class="col-6 radar-chart odd">
+        <h4>Reserva</h4>
+        <%= radar_chart  @radar_data_reserva, radar_chart_opts %>
+      </div>
+      <div class="col-6 radar-chart even">
+        <h4>Egreso</h4>
+        <%= radar_chart  @radar_data_egreso, radar_chart_opts %>
+      </div>
+    </div>
+    
+  </div>
+  <div class="col-12 bottom-border">
+    <h3>Distribución de los pesupuestos por rubro</h3>
+    <div class="row">
+      <div class="col-6 horizontal-chart odd item-1"><%= horizontal_bar_chart @horizontal_inicial, horizontal_bar_opts %></div>
+      <div class="col-6 horizontal-chart even item-2"><%= horizontal_bar_chart @horizontal_disponibilidad, horizontal_bar_opts %></div>
+      <div class="col-6 horizontal-chart odd item-3"><%= horizontal_bar_chart @horizontal_reserva, horizontal_bar_opts %></div>
+      <div class="col-6 horizontal-chart even item-4"><%= horizontal_bar_chart @horizontal_egreso, horizontal_bar_opts %></div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <h3>Distribución de los pesupuestos por año</h3>
+  <% if @results_presupuesto.present? %>
+    <% @results_presupuesto.each do |presupuesto| %>
+      <% 
+      
+      labels = ['presupuesto_inicial', 'disponibilidad_total', 'reserva_total', 'egreso_total']
+      
+      data = labels.map.with_index do |metric, idx|
+        presupuesto[metric].to_i
+      end
+
+      datasets = [
+        {
+          label: presupuesto['anio_inicio'].to_s,
+          backgroundColor: chart_hex_color,
+          data: data
+        },
+      ]
+       
+      @data_doughnut = { labels: labels, datasets: datasets }
+      
+      %>
+      <div class="col-3 donuts-chart">
+        <h4><%= presupuesto['anio_inicio'].to_s %></h4>
+        <%= doughnut_chart @data_doughnut, doughnut_chart_opts %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

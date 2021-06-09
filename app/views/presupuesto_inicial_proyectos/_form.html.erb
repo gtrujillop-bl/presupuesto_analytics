@@ -14,12 +14,12 @@
 
     <div class="field">
       <%= form.label :rubro_id %>
-      <%= form.text_field :rubro_id %>
+      <%= form.collection_select :rubro_id, rubros, :id, :nombre %>
     </div>
 
     <div class="field">
       <%= form.label :proyecto_id %>
-      <%= form.text_field :proyecto_id %>
+      <%= form.collection_select :proyecto_id, proyectos, :id, :numero_proyecto %>
     </div>
 
     <div class="field">

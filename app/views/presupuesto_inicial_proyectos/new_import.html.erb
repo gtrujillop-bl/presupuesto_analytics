@@ -1,8 +1,8 @@
-<h1>Cargue su CSV de Presupuesto</h1>
+<h1>Cargue su CSV de valores iniciales</h1>
 <div class="block-form-content">
   <%= flash[:notice] %>
   <div>
-    <%= form_tag import_presupuestos_path, multipart: true do %>
+    <%= form_tag import_presupuesto_inicial_proyectos_path, multipart: true do %>
       <div class="field">
         <%= file_field_tag :file %>
       </div>
@@ -12,3 +12,4 @@
     <% end %>
   </div>
 </div>
+  

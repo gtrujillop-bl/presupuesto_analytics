@@ -156,6 +156,41 @@ class Presupuesto < ApplicationRecord
     formatted_results(sql1: sql_presupuestos, sql2: sql_presupuesto_inicial, join_column: 'anio_inicio')
   end
 
+  def self.por_facultad_rubro(facultad_id, rubro_id)
+    sql_presupuestos = <<-SQL
+      SELECT 
+        fa.id AS facultad_id, fa.nombre AS nombre_facultad, ru.id AS rubro_id, ru.nombre AS nombre_rubro,
+        #{base_columns_for_presupuestos_report}
+        FROM presupuestos pre
+        INNER JOIN proyectos pr ON pr.id = pre.proyecto_id
+        INNER JOIN rubros ru ON ru.id = pre.rubro_id AND ru.id = #{rubro_id}
+        INNER JOIN facultades fa ON pr.facultad_id = fa.id AND fa.id = #{facultad_id}
+        GROUP BY fa.id, ru.id;
+    SQL
+    sql_presupuesto_inicial = <<-SQL
+      SELECT
+        fa.id AS facultad_id, fa.nombre AS nombre_facultad, ru.id AS rubro_id, ru.nombre AS nombre_rubro,
+        SUM(pri.valor_inicial) AS presupuesto_inicial
+        FROM presupuesto_inicial_proyectos pri
+        INNER JOIN proyectos pr ON pr.id = pri.proyecto_id
+        INNER JOIN rubros ru ON ru.id = pri.rubro_id AND ru.id = #{rubro_id}
+        INNER JOIN facultades fa ON pr.facultad_id = fa.id AND fa.id = #{facultad_id}
+        GROUP BY fa.id, ru.id;
+    SQL
+    formatted_results(sql1: sql_presupuestos, sql2: sql_presupuesto_inicial, join_column: 'nombre_facultad')
+  end
+
+  def self.count_proyecto_anio
+    sql_count_projects = <<-SQL
+      SELECT
+        count(*), extract(year from pr.fecha_inicio) as anio_inicio
+        FROM proyectos pr
+        GROUP BY anio_inicio
+        ORDER BY anio_inicio ASC;
+    SQL
+    ActiveRecord::Base.connection.exec_query(sql_count_projects).to_a
+  end
+
   def self.csv_import(file)
     
     Presupuesto.transaction do
