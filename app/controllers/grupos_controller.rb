@@ -64,6 +64,6 @@ class GruposController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def grupo_params
-      params.require(:grupo).permit(:nombre, :facultad_id)
+      params.require(:grupo).permit(:nombre, :facultad_id, :programa_id)
     end
 end

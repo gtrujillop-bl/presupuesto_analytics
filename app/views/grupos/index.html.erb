@@ -7,7 +7,8 @@
     <tr>
       <th>Nombre</th>
       <th>Facultad</th>
-      <th colspan="3"></th>
+      <th>Programa</th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -16,6 +17,7 @@
       <tr>
         <td><%= grupo.nombre %></td>
         <td><%= grupo.facultad_id %></td>
+        <td><%= grupo.programa_id %></td>
         <td><%= link_to 'Ver', grupo %></td>
         <td><%= link_to 'Editar', edit_grupo_path(grupo) %></td>
         <td><%= link_to 'Borrar', grupo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
