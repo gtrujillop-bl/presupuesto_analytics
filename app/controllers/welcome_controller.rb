@@ -4,6 +4,7 @@ class WelcomeController < ApplicationController
   before_action :data_lines_proyectos_totales, only: %i[ index ]
   before_action :data_radar_facultades_rubros_totales, only: %i[ index ]
   before_action :data_horizontal_chart_rubros_totales, only: %i[ index ]
+  before_action :data_info_dashboard_totales, only: %i[ index ]
   
   def index
     # Gráfica de Presupuestos dinámico por año
@@ -12,6 +13,15 @@ class WelcomeController < ApplicationController
   end
   
   private
+
+    def data_info_dashboard_totales
+      @facultades_contador = Facultad.all.count
+      @rubros_contador = Rubro.all.count
+      @proyectos_contador = Proyecto.all.count
+      @grupos_contador = Grupo.all.count
+      @semilleros_contador = Semillero.all.count
+      
+    end
 
     def data_lines_proyectos_totales
       @results_proyectos = Presupuesto.count_proyecto_anio
