@@ -66,4 +66,141 @@ RSpec.describe Presupuesto, type: :model do
       end
     end
   end
+
+  describe '.por_grupo' do
+
+    context "when there's data" do
+      before do
+        presupuesto_1
+        presupuesto_2
+        presupuesto_3
+        presupuesto_4
+      end
+      let(:expected) do
+        [
+          {
+            id: grupo_1.id,
+            nombre_grupo: grupo_1.nombre
+            disponibilidad_total: 0.0,
+            egreso_total: 5000000.0,
+            reserva_total: 500000.0,
+            presupuesto_inicial: 11000000.0,
+            anio_inicio: 0
+          },
+          {
+            id: grupo_2.id,
+            nombre_grupo: grupo_2.nombre
+            disponibilidad_total: 0.0,
+            egreso_total: 20000000.0,
+            reserva_total: 200000.0,
+            presupuesto_inicial: 42000000.0,
+            anio_inicio: 0
+          }
+        ]
+      end 
+  
+      it 'returns presupuestos grouped by grupo' do
+        results = described_class.por_grupo.map(&:symbolize_keys)
+        expect(results).to match_array expected
+      end
+    end
+
+    context "when there's no data" do
+      it "returns empty array" do
+        expect()
+      end
+    end
+
+  end
+
+  describe '.por_rubro' do
+
+    context "when there's data" do
+      before do
+        presupuesto_1
+        presupuesto_2
+        presupuesto_3
+        presupuesto_4
+      end
+      let(:expected) do
+        [
+          {
+            id: rubro_1.id,
+            nombre_rubro: rubro_1.nombre,
+            disponibilidad_total: 0.0,
+            egreso_total: 25000000.0,
+            reserva_total: 0.0,
+            presupuesto_inicial: 50000000.0,
+            anio_inicio: 0
+          },
+          {
+            id: rubro_2.id,
+            nombre_rubro: rubro_2.nombre,
+            disponibilidad_total: 0.0,
+            egreso_total: 0.0,
+            reserva_total: 500000.0,
+            presupuesto_inicial: 1000000.0,
+            anio_inicio: 0
+          },
+          {
+            id: rubro_3.id,
+            nombre_rubro: rubro_3.nombre,
+            disponibilidad_total: 0.0,
+            egreso_total: 0.0,
+            reserva_total: 200000.0,
+            presupuesto_inicial: 2000000.0,
+            anio_inicio: 0
+          }
+        ]
+      end 
+  
+      it 'returns presupuestos grouped by rubro' do
+        results = described_class.por_rubro.map(&:symbolize_keys)
+        expect(results).to match_array expected
+      end
+    end
+
+    context "when there's no data" do
+      it "returns empty array" do
+        expect()
+      end
+    end
+
+  end
+
+  describe '.por_anio' do
+
+    context "when there's data" do
+      before do
+        presupuesto_1
+        presupuesto_2
+        presupuesto_3
+        presupuesto_4
+      end
+      let(:expected) do
+        [
+          {
+            anio_inicio: Time.now.year,
+            disponibilidad_total: 0.0,
+            egreso_total: 25000000.0,
+            reserva_total: 700000.0,
+            presupuesto_inicial: 53000000.0
+          }
+        ]
+      end 
+  
+      it 'returns presupuestos grouped by año' do
+        results = described_class.por_anio.map(&:symbolize_keys)
+        expect(results).to match_array expected
+      end
+    end
+
+    context "when there's no data" do
+      it "returns empty array" do
+        expect()
+      end
+    end
+
+  end
+
 end
