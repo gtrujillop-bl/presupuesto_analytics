@@ -71,25 +71,48 @@ class Presupuesto < ApplicationRecord
   #   formatted_results(sql)
   # end
 
-  def self.por_facultad
-    sql_presupuestos = <<-SQL
-      SELECT 
-        fa.id, fa.nombre AS nombre_facultad,
-        #{base_columns_for_presupuestos_report}
-        FROM presupuestos pre
-        INNER JOIN proyectos pr ON pr.id = pre.proyecto_id
-        INNER JOIN facultades fa ON pr.facultad_id = fa.id
-        GROUP BY fa.id;
-    SQL
-    sql_presupuesto_inicial = <<-SQL
-      SELECT
-        fa.id, fa.nombre AS nombre_facultad,
-        SUM(pri.valor_inicial) AS presupuesto_inicial
-        FROM presupuesto_inicial_proyectos pri
-        INNER JOIN proyectos pr ON pr.id = pri.proyecto_id
-        INNER JOIN facultades fa ON pr.facultad_id = fa.id
-        GROUP BY fa.id
-    SQL
+  def self.por_facultad(year = nil)
+    if year.present?
+      sql_presupuestos = <<-SQL
+        SELECT 
+          fa.id, fa.nombre AS nombre_facultad,
+          #{base_columns_for_presupuestos_report}
+          FROM presupuestos pre
+          INNER JOIN proyectos pr ON pr.id = pre.proyecto_id
+          INNER JOIN facultades fa ON pr.facultad_id = fa.id
+          WHERE extract(year from pr.fecha_inicio) = #{year}
+          GROUP BY fa.id;
+      SQL
+      sql_presupuesto_inicial = <<-SQL
+        SELECT
+          fa.id, fa.nombre AS nombre_facultad,
+          SUM(pri.valor_inicial) AS presupuesto_inicial
+          FROM presupuesto_inicial_proyectos pri
+          INNER JOIN proyectos pr ON pr.id = pri.proyecto_id
+          INNER JOIN facultades fa ON pr.facultad_id = fa.id
+          WHERE extract(year from pr.fecha_inicio) = #{year}
+          GROUP BY fa.id;
+      SQL
+    else
+      sql_presupuestos = <<-SQL
+        SELECT 
+          fa.id, fa.nombre AS nombre_facultad,
+          #{base_columns_for_presupuestos_report}
+          FROM presupuestos pre
+          INNER JOIN proyectos pr ON pr.id = pre.proyecto_id
+          INNER JOIN facultades fa ON pr.facultad_id = fa.id
+          GROUP BY fa.id;
+      SQL
+      sql_presupuesto_inicial = <<-SQL
+        SELECT
+          fa.id, fa.nombre AS nombre_facultad,
+          SUM(pri.valor_inicial) AS presupuesto_inicial
+          FROM presupuesto_inicial_proyectos pri
+          INNER JOIN proyectos pr ON pr.id = pri.proyecto_id
+          INNER JOIN facultades fa ON pr.facultad_id = fa.id
+          GROUP BY fa.id;
+      SQL
+    end
     formatted_results(sql1: sql_presupuestos, sql2: sql_presupuesto_inicial, join_column: 'nombre_facultad')
   end
 
@@ -282,7 +305,8 @@ class Presupuesto < ApplicationRecord
       end['presupuesto_inicial']
 
       res['anio_inicio'] = res['anio_inicio'].to_i
-      res['disponibilidad_total'] = res['disponibilidad_total'].to_f
+      res['inicial_total'] = res['inicial_total'].to_i
+      res['disponibilidad_total'] = res['presupuesto_inicial'].to_f - res['egreso_total'].to_f - res['reserva_total'].to_f
       res['egreso_total'] = res['egreso_total'].to_f
       res['reserva_total'] = res['reserva_total'].to_f
       res
@@ -290,7 +314,8 @@ class Presupuesto < ApplicationRecord
   end
 
   def self.base_columns_for_presupuestos_report
-    "SUM(pre.disponibilidad) AS disponibilidad_total,
+    "SUM(pre.valor_inicial) AS inicial_total,
+     SUM(pre.disponibilidad) AS disponibilidad_total,
      SUM(pre.egreso) AS egreso_total,
      SUM(pre.reserva) AS reserva_total"
   end

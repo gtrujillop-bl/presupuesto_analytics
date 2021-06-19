@@ -6,6 +6,7 @@
       <%= form.label :query, "Filtrar" %>
       <%= form.hidden_field :reporte, value: @report %>
       <%= form.select :by, @options, selected: @filter_option %>
+      <%= form.select :year, @option_years, selected: @year_option %>
       <%= form.submit "Filtrar", :class => "badge-primary" %>
     <% end %>
   </div>
