@@ -7,8 +7,8 @@ RSpec.describe Presupuesto, type: :model do
   let(:grupo_2) { create(:grupo, facultad: facultad_2) }
   let(:investigador) { create(:investigador) }
   let(:rubro_1) { create(:rubro) }
-  let(:rubro_2) { create(:rubro) }
-  let(:rubro_3) { create(:rubro) }
+  let(:rubro_2) { create(:rubro, nombre: "Rubro 2") }
+  let(:rubro_3) { create(:rubro, nombre: "Rubro 3") }
   let(:proyecto_1) { create(:proyecto, facultad: facultad_1, grupo: grupo_1, investigador: investigador) }
   let(:proyecto_2) { create(:proyecto, facultad: facultad_2, grupo: grupo_2, investigador: investigador) }
   let(:presupuesto_1) { create(:presupuesto, proyecto: proyecto_1, rubro: rubro_1, valor_inicial: 10000000.0, reserva: 0.0, egreso: 5000000.0) }
@@ -80,7 +80,7 @@ RSpec.describe Presupuesto, type: :model do
         [
           {
             id: grupo_1.id,
-            nombre_grupo: grupo_1.nombre
+            nombre_grupo: grupo_1.nombre,
             disponibilidad_total: 0.0,
             egreso_total: 5000000.0,
             reserva_total: 500000.0,
@@ -89,7 +89,7 @@ RSpec.describe Presupuesto, type: :model do
           },
           {
             id: grupo_2.id,
-            nombre_grupo: grupo_2.nombre
+            nombre_grupo: grupo_2.nombre,
             disponibilidad_total: 0.0,
             egreso_total: 20000000.0,
             reserva_total: 200000.0,
@@ -107,7 +107,7 @@ RSpec.describe Presupuesto, type: :model do
 
     context "when there's no data" do
       it "returns empty array" do
-        expect()
+        expect(described_class.por_grupo).to be_empty
       end
     end
 
@@ -162,7 +162,7 @@ RSpec.describe Presupuesto, type: :model do
 
     context "when there's no data" do
       it "returns empty array" do
-        expect()
+        expect(described_class.por_rubro).to be_empty
       end
     end
 
@@ -197,7 +197,7 @@ RSpec.describe Presupuesto, type: :model do
 
     context "when there's no data" do
       it "returns empty array" do
-        expect()
+        expect(described_class.por_anio).to be_empty
       end
     end
 
