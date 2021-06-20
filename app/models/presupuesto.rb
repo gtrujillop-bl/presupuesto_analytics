@@ -300,10 +300,11 @@ class Presupuesto < ApplicationRecord
     end
     ActiveRecord::Base.connection.exec_query(sql1).to_a.map do |res|
       # TODO Refactor
-      res['presupuesto_inicial'] = results_presupuesto_inicial.find do |rpi| 
-        res[join_column].to_s.downcase == rpi[join_column].to_s.downcase 
-      end['presupuesto_inicial']
+      # res['presupuesto_inicial'] = results_presupuesto_inicial.find do |rpi| 
+      #   res[join_column].to_s.downcase == rpi[join_column].to_s.downcase 
+      # end['presupuesto_inicial']
 
+      res['presupuesto_inicial'] = res['presupuesto_inicial'].to_f
       res['anio_inicio'] = res['anio_inicio'].to_i
       res['inicial_total'] = res['inicial_total'].to_i
       res['disponibilidad_total'] = res['presupuesto_inicial'].to_f - res['egreso_total'].to_f - res['reserva_total'].to_f
@@ -314,7 +315,7 @@ class Presupuesto < ApplicationRecord
   end
 
   def self.base_columns_for_presupuestos_report
-    "SUM(pre.valor_inicial) AS inicial_total,
+    "SUM(pre.valor_inicial) AS presupuesto_inicial,
      SUM(pre.disponibilidad) AS disponibilidad_total,
      SUM(pre.egreso) AS egreso_total,
      SUM(pre.reserva) AS reserva_total"
