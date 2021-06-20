@@ -210,19 +210,19 @@ class Presupuesto < ApplicationRecord
   # sql2 es el parámetro de la consulta de valores iniciales
   # join_column es el campo por el que se van a unir sql1 y sql2
   def self.formatted_results(sql1: '', sql2: '', join_column: '')
-    # results_presupuesto_inicial = ActiveRecord::Base.connection.exec_query(sql2).to_a.map do |res|
-    #   res['presupuesto_inicial'] = res['presupuesto_inicial'].to_f
-    #   res
-    # end
+    results_presupuesto_inicial = ActiveRecord::Base.connection.exec_query(sql2).to_a.map do |res|
+      res['presupuesto_inicial'] = res['presupuesto_inicial'].to_f
+      res
+    end
     ActiveRecord::Base.connection.exec_query(sql1).to_a.map do |res|
       # TODO Refactor
-      # if results_presupuesto_inicial.present?
-      #   res['presupuesto_inicial'] = results_presupuesto_inicial.find do |rpi| 
-      #     res[join_column].to_s.downcase == rpi[join_column].to_s.downcase 
-      #   end['presupuesto_inicial']
-      # else
-      # end
-      res['presupuesto_inicial'] = res['presupuesto_inicial'].to_i
+      if results_presupuesto_inicial.present?
+        res['presupuesto_inicial'] = results_presupuesto_inicial.find do |rpi| 
+          res[join_column].to_s.downcase == rpi[join_column].to_s.downcase 
+        end['presupuesto_inicial']
+      else
+        res['presupuesto_inicial'] = res['presupuesto_inicial'].to_i
+      end
       res['anio_inicio'] = res['anio_inicio'].to_i
       res['disponibilidad_total'] = res['disponibilidad_total'].to_f
       res['egreso_total'] = res['egreso_total'].to_f
