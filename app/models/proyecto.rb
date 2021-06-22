@@ -36,7 +36,7 @@
 class Proyecto < ApplicationRecord
   belongs_to :facultad, foreign_key: :facultad_id
   belongs_to :grupo, foreign_key: :grupo_id
-  belongs_to :semillero, foreign_key: :semillero_id
+  belongs_to :semillero, foreign_key: :semillero_id, required: false
   belongs_to :investigador, foreign_key: :investigador_id
   belongs_to :programa, foreign_key: :programa_id, required: false
   has_many :rubros, through: :presupuestos
