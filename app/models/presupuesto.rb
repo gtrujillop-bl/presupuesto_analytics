@@ -173,7 +173,6 @@ class Presupuesto < ApplicationRecord
   end
 
   def self.csv_import(file)
-    
     Presupuesto.transaction do
       presupuestos = []
       begin
@@ -198,7 +197,6 @@ class Presupuesto < ApplicationRecord
         raise ActiveRecord::ActiveRecordError.new("No se pudo importar CSV #{e.message}")
       end
     end
-    
   end
   
   # report_type es el tipo de reporte que se desea consultar
@@ -229,11 +227,6 @@ class Presupuesto < ApplicationRecord
   # join_column es el campo por el que se van a unir sql1 y sql2
   def self.formatted_results(sql1: '', join_column: '')
     ActiveRecord::Base.connection.exec_query(sql1).to_a.map do |res|
-      # TODO Refactor
-      # res['presupuesto_inicial'] = results_presupuesto_inicial.find do |rpi| 
-      #   res[join_column].to_s.downcase == rpi[join_column].to_s.downcase 
-      # end['presupuesto_inicial']
-
       res['presupuesto_inicial'] = res['presupuesto_inicial'].to_f
       res['anio_inicio'] = res['anio_inicio'].to_i
       res['inicial_total'] = res['inicial_total'].to_i
