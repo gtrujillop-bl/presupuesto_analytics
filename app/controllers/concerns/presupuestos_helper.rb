@@ -5,6 +5,7 @@ module PresupuestosHelper
     por_anio
     por_rubro
     por_proyecto
+    por_programa
   ]
 
   def metricas_presupuestos
@@ -73,6 +74,8 @@ module PresupuestosHelper
     case option
     when :por_facultad
       data_presupuesto_facultades
+    when :por_programa
+      data_presupuesto_programas
     when :por_grupo
       data_presupuesto_grupos
     when :por_anio
@@ -140,6 +143,42 @@ module PresupuestosHelper
           data['label'] = metric.titleize
           data['backgroundColor'] = metricas_colors[idx]
           data['data'] = @por_facultad.map { |facultad| facultad[metric] }
+        end
+      end
+    end
+    @data = { labels: labels, datasets: datasets }
+  end
+
+  def data_presupuesto_programas
+    @por_programa = Presupuesto.por_programa
+    @filter_option = params[:by]
+    @report = params[:reporte]
+    # @report_grid_data Recibe todos los datos que se van a presentar en la grilla
+    # @options Recibe las opciones de filtrados mostradas en el select dropdown
+    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option))
+    @options = @por_programa.map { |elemento| [elemento['nombre_programa'], elemento['id']] }
+
+    # Se optienen las sumatoria de Totales 
+    calc_totals(Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option))
+    # si recibe parametros de filtrado, extrae los datos según la opción de filtrado seleccionada, en caso contrario devuelve todos los resultados
+    if params[:by].present?
+      labels = @por_programa.select{ |programa| programa['id'] == @filter_option.to_i }
+      labels = labels.map { |programa| programa['nombre_programa'] }.compact.uniq
+      #labels = @por_programa.map { |programa| programa['nombre_programa'] }.compact.uniq
+      datasets = metricas_presupuestos.map.with_index do |metric, idx|
+        {}.tap do |data|
+          data['label'] = metric.titleize
+          data['backgroundColor'] = metricas_colors[idx]
+          data['data'] = @por_programa.select{ |programa| programa['id'] == @filter_option.to_i }.map { |programa| programa[metric] }
+        end
+      end
+    else
+      labels = @por_programa.map { |programa| programa['nombre_programa'] }.compact.uniq
+      datasets = metricas_presupuestos.map.with_index do |metric, idx|
+        {}.tap do |data|
+          data['label'] = metric.titleize
+          data['backgroundColor'] = metricas_colors[idx]
+          data['data'] = @por_programa.map { |programa| programa[metric] }
         end
       end
     end

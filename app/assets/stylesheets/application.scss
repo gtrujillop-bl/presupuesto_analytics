@@ -29,6 +29,53 @@ body {
     font-family: $title;
     font-weight: normal;
   }
+  .row {
+    width: 100%;
+    .horizontal-chart {
+      border: thin solid #ddd;
+      padding: 10px;
+      &.item-3,
+      &.item-4 {
+        border-top: 0;
+      }
+      &.odd {
+        border-right: 0;
+      }
+      canvas {
+        height: 300px;
+      }
+    }
+    .radar-chart {
+      padding: 15px;
+      position: relative;
+      &.odd::after {
+        content: "";
+        position: absolute;
+        width: 1px;
+        height: 30%;
+        display: block;
+        top: 35%;
+        right: -5px;
+        border-right: thin dotted rgba(57, 102, 150, 0.5);
+      }
+      canvas {
+        height: 500px;
+      }
+    }
+    h3 {
+      color: #25CCF7;
+      margin-top: 25px;
+    }
+    h4 {
+      color: #777;
+      font-size: 1.2em;
+      margin-top: 0.5rem;
+    }
+    .bottom-border {
+      border-bottom: thin solid rgba(57, 102, 150, 0.5);
+      padding-bottom: 25px;
+    }
+  }
   .sidebar .nav-link {
     font-weight: 500;
     color: $acceGris;
@@ -44,10 +91,45 @@ body {
   }
   .top-container {
     position: relative;
-    a {
+    width: 100%;
+    height: 48px;
+    h1 {
+      float: left;
+    }
+    form {
+      padding: 9px 0;
+      float: right;
+      display: flex;
+      justify-content: center;
+      label {
+        margin-right: 7px;
+      }
+      .badge-primary {
+        border: none;
+        border-radius: 0;
+        margin: 0 5px;
+        width: 100px;
+      }
+    }
+    .actions {
       position: absolute;
       top: 0;
       right: 0;
+      
+    }
+  }
+
+  .pagination {
+    align-items: center;
+    justify-content: center;
+    .page-link {
+      color: #396696;
+    }
+    .page-item.active .page-link {
+      z-index: 3;
+      color: #fff;
+      background-color: #396696;
+      border-color: #396696;
     }
   }
 
@@ -107,6 +189,28 @@ body {
 
     td.pr-money {
       color: $acceVerde;
+    }
+    tr.pr-totales {
+      background-color: #6c757d;
+      color: #FFF;
+      font-weight: bold;
+      &:hover {
+        color: #FFF;
+      }
+      .label {
+        text-align: right;
+        font-size: 1.2rem;
+        align-items: center;
+      }
+      .value {
+        display: flex;
+        align-items: center;
+        padding: 0.2rem 0;
+        &:focus,
+        &:hover {
+          color: #FFF;
+        }
+      }
     }
   }
 }

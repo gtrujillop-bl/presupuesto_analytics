@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_28_132800) do
+ActiveRecord::Schema.define(version: 2021_06_09_221835) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,8 +23,10 @@ ActiveRecord::Schema.define(version: 2021_04_28_132800) do
   create_table "grupos", force: :cascade do |t|
     t.string "nombre"
     t.bigint "facultad_id", comment: "Identificador de la facultad"
+    t.bigint "programa_id"
     t.index ["facultad_id"], name: "fki_fk_grupos_facultades"
     t.index ["facultad_id"], name: "index_grupos_on_facultad_id"
+    t.index ["programa_id"], name: "index_grupos_on_programa_id"
   end
 
   create_table "investigadores", force: :cascade do |t|
@@ -60,6 +62,14 @@ ActiveRecord::Schema.define(version: 2021_04_28_132800) do
     t.index ["rubro_id"], name: "index_presupuestos_on_rubro_id"
   end
 
+  create_table "programas", force: :cascade do |t|
+    t.string "nombre", null: false
+    t.bigint "facultades_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["facultades_id"], name: "index_programas_on_facultades_id"
+  end
+
   create_table "proyectos", force: :cascade do |t|
     t.string "nombre"
     t.date "fecha_inicio"
@@ -69,12 +79,14 @@ ActiveRecord::Schema.define(version: 2021_04_28_132800) do
     t.bigint "semillero_id"
     t.bigint "investigador_id"
     t.string "numero_proyecto", null: false
+    t.bigint "programa_id"
     t.index ["facultad_id"], name: "fki_fk_proyectos_facultades"
     t.index ["facultad_id"], name: "index_proyectos_on_facultad_id"
     t.index ["grupo_id"], name: "fki_fk_proyectos_grupos"
     t.index ["grupo_id"], name: "index_proyectos_on_grupo_id"
     t.index ["investigador_id"], name: "fki_fk_proyectos_investigadores"
     t.index ["investigador_id"], name: "index_proyectos_on_investigador_id"
+    t.index ["programa_id"], name: "index_proyectos_on_programa_id"
     t.index ["semillero_id"], name: "fki_fk_proyectos_semilleros"
     t.index ["semillero_id"], name: "index_proyectos_on_semillero_id"
   end
@@ -94,13 +106,16 @@ ActiveRecord::Schema.define(version: 2021_04_28_132800) do
   end
 
   add_foreign_key "grupos", "facultades", column: "facultad_id", name: "fk_grupos_facultades", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "grupos", "programas"
   add_foreign_key "presupuesto_inicial_proyectos", "proyectos", name: "fk_presupuesto_inicial_proyectos"
   add_foreign_key "presupuesto_inicial_proyectos", "rubros", name: "fk_presupuestos_rubros"
   add_foreign_key "presupuestos", "proyectos", name: "fk_presupuestos_proyectos"
   add_foreign_key "presupuestos", "rubros", name: "fk_presupuestos_rubros"
+  add_foreign_key "programas", "facultades", column: "facultades_id"
   add_foreign_key "proyectos", "facultades", column: "facultad_id", name: "fk_proyectos_facultades"
   add_foreign_key "proyectos", "grupos", name: "fk_proyectos_grupos"
   add_foreign_key "proyectos", "investigadores", column: "investigador_id", name: "fk_proyectos_investigadores"
+  add_foreign_key "proyectos", "programas"
   add_foreign_key "proyectos", "semilleros", name: "fk_proyectos_semilleros"
   add_foreign_key "semilleros", "grupos", name: "fk_semilleros_grupos"
 end
