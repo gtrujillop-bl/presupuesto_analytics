@@ -229,7 +229,6 @@ class Presupuesto < ApplicationRecord
     ActiveRecord::Base.connection.exec_query(sql1).to_a.map do |res|
       res['presupuesto_inicial'] = res['presupuesto_inicial'].to_f
       res['anio_inicio'] = res['anio_inicio'].to_i
-      res['inicial_total'] = res['inicial_total'].to_i
       res['disponibilidad_total'] = res['presupuesto_inicial'].to_f - res['egreso_total'].to_f - res['reserva_total'].to_f
       res['egreso_total'] = res['egreso_total'].to_f
       res['reserva_total'] = res['reserva_total'].to_f
