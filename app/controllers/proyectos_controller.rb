@@ -1,5 +1,6 @@
 class ProyectosController < ApplicationController
   before_action :set_proyecto, only: %i[ show edit update destroy ]
+  before_action :set_collection_select, only: %i[ new edit ]
 
   # GET /proyectos or /proyectos.json
   def index
@@ -60,6 +61,15 @@ class ProyectosController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_proyecto
       @proyecto = Proyecto.find(params[:id])
+    end
+  
+    # Use callbacks to share common setup or constraints between actions.
+    def set_collection_select
+      @facultades = Facultad.all
+      @programas = Programa.all
+      @grupos = Grupo.all
+      @semilleros = Semillero.all
+      @investigadores = Investigador.all
     end
 
     # Only allow a list of trusted parameters through.

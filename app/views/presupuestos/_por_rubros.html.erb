@@ -5,7 +5,7 @@
     <%= form_with url: presupuestos_path, method: :get do |form| %>
       <%= form.label :query, "Filtrar" %>
       <%= form.hidden_field :reporte, value: @report %>
-      <%= form.select :by, @options, selected: @filter_option %>
+      <%= form.select :by, @options, selected: @filter_option || "", disabled: "", prompt: 'Seleccionar Rubro' %>
       <%= form.submit "Filtrar", :class => "badge-primary" %>
     <% end %>
   </div>

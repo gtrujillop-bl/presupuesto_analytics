@@ -52,8 +52,25 @@
               <li class="nav-item">
                 <%= link_to 'Rubro', presupuestos_path(reporte: 'por_rubro'), class: "nav-link" %>
               </li>
-              <li class="nav-item">
-                <%= link_to 'Presupuesto inicial proyecto', presupuesto_inicial_proyectos_path, class: "nav-link" %>
+            </ul>
+            <h4 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              <span>Contenidos</span>
+            </h4>
+            <ul class="nav flex-column">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Listados</a>
+                <div class="dropdown-menu">
+                  <%= link_to 'Investigadores', investigadores_path, class: "dropdown-item" %>
+                  <%= link_to 'Facultades', facultades_path, class: "dropdown-item" %>
+                  <%= link_to 'Programas', programas_path, class: "dropdown-item" %>
+                  <%= link_to 'Grupos', grupos_path, class: "dropdown-item" %>
+                  <%= link_to 'Semilleros', semilleros_path, class: "dropdown-item" %>
+                  <%= link_to 'Rubros', rubros_path, class: "dropdown-item" %>
+                  <%= link_to 'Proyectos', proyectos_path, class: "dropdown-item" %>
+                  <div class="dropdown-divider"></div>
+                  <%= link_to 'Crear presupuesto', new_presupuesto_path, :class => "dropdown-item" %>
+                  <%= link_to 'Importar Presupuestos CSV', new_import_presupuestos_path, :class => "dropdown-item" %>
+                </div>
               </li>
             </ul>
           </div>

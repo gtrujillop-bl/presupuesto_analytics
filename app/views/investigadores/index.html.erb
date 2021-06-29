@@ -1,8 +1,20 @@
 <p id="notice"><%= notice %></p>
+<div class="top-container">
+    <h1>Investigadores</h1>
+    <div class="actions">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Menú
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+          <%= link_to 'Crear Investigador', new_investigadore_path, :class => "dropdown-item" %>
+          <div class="dropdown-divider"></div>
+        </div>
+      </div>
+    </div>
+</div>
 
-<h1>Investigadores</h1>
-
-<table class="table table-striped">
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Cedula</th>
@@ -18,14 +30,10 @@
         <td><%= investigador.cedula %></td>
         <td><%= investigador.nombres %></td>
         <td><%= investigador.apellidos %></td>
-        <td><%= link_to 'Ver', investigadore_path(investigador) %></td>
-        <td><%= link_to 'Editar', edit_investigadore_path(investigador) %></td>
-        <td><%= link_to 'Borrar', investigadore_path(investigador), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Ver', investigadore_path(investigador), :class => "badge badge-info" %></td>
+        <td><%= link_to 'Editar', edit_investigadore_path(investigador), :class => "badge badge-secondary" %></td>
+        <td><%= link_to 'Borrar', investigadore_path(investigador), method: :delete, data: { confirm: 'Are you sure?' }, :class => "badge badge-danger" %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Investigador', new_investigadore_path %>

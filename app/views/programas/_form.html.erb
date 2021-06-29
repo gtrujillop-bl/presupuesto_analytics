@@ -1,0 +1,29 @@
+<div class="block-form-content">
+  <%= form_with(model: programa) do |form| %>
+    <% if programa.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(programa.errors.count, "error") %> prohibited this programa from being saved:</h2>
+
+        <ul>
+          <% programa.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :nombre %>
+      <%= form.text_field :nombre %>
+    </div>
+
+    <div class="field">
+      <%= form.label :facultades_id %>
+      <%= form.collection_select :facultades_id, facultades, :id, :nombre %>
+    </div>
+
+    <div class="actions">
+      <%= link_to 'Volver', programa %> <%= form.submit "Guardar" %>
+    </div>
+  <% end %>
+</div>

@@ -64,7 +64,7 @@ class PresupuestosController < ApplicationController
 
   def import
     presupuestos_ids = Presupuesto.csv_import(params[:file])
-    redirect_to presupuestos_path(ids: presupuestos_ids), notice: "Successfully Imported Data!!"
+    redirect_to presupuestos_path(ids: presupuestos_ids), notice: "Presupuestos cargados correctamente"
   end
 
   

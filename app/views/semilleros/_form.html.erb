@@ -19,7 +19,7 @@
 
     <div class="field">
       <%= form.label :grupo_id %>
-      <%= form.text_field :grupo_id %>
+      <%= form.collection_select :grupo_id, grupos, :id, :nombre %>
     </div>
 
     <div class="field">
@@ -28,7 +28,7 @@
     </div>
 
     <div class="actions">
-      <%= link_to 'Volver', semilleros_path %> <%= form.submit "Crear semillero" %>
+      <%= link_to 'Volver', semilleros_path %> <%= form.submit "Guardar" %>
     </div>
   <% end %>
 </div>

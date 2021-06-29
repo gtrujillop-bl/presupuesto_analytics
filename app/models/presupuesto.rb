@@ -48,6 +48,7 @@ class Presupuesto < ApplicationRecord
   }.freeze
 
   scope :by_facultad, ->(facultad_id) { joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("proyectos.facultad_id = ?", facultad_id) }
+  scope :by_facultad_anio, ->(facultad_id, year) { joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("proyectos.facultad_id = ?", facultad_id).where("extract(year from proyectos.fecha_inicio) = ?", year) }
   scope :by_grupo, ->(grupo_id) { joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("proyectos.grupo_id = ?", grupo_id) }
   scope :by_semillero, ->(semillero_id) { joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("proyectos.semillero_id = ?", semillero_id) }
   scope :by_year, ->(year) { joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("extract(year from proyectos.fecha_inicio) = ?", year) }
@@ -71,26 +72,30 @@ class Presupuesto < ApplicationRecord
   #   formatted_results(sql)
   # end
 
-  def self.por_facultad
-    sql_presupuestos = <<-SQL
-      SELECT 
-        fa.id, fa.nombre AS nombre_facultad,
-        #{base_columns_for_presupuestos_report}
-        FROM presupuestos pre
-        INNER JOIN proyectos pr ON pr.id = pre.proyecto_id
-        INNER JOIN facultades fa ON pr.facultad_id = fa.id
-        GROUP BY fa.id;
-    SQL
-    sql_presupuesto_inicial = <<-SQL
-      SELECT
-        fa.id, fa.nombre AS nombre_facultad,
-        SUM(pri.valor_inicial) AS presupuesto_inicial
-        FROM presupuesto_inicial_proyectos pri
-        INNER JOIN proyectos pr ON pr.id = pri.proyecto_id
-        INNER JOIN facultades fa ON pr.facultad_id = fa.id
-        GROUP BY fa.id
-    SQL
-    formatted_results(sql1: sql_presupuestos, sql2: sql_presupuesto_inicial, join_column: 'nombre_facultad')
+  def self.por_facultad(year = nil)
+    if year.present?
+      sql_presupuestos = <<-SQL
+        SELECT 
+          fa.id, fa.nombre AS nombre_facultad,
+          #{base_columns_for_presupuestos_report}
+          FROM presupuestos pre
+          INNER JOIN proyectos pr ON pr.id = pre.proyecto_id
+          INNER JOIN facultades fa ON pr.facultad_id = fa.id
+          WHERE extract(year from pr.fecha_inicio) = #{year}
+          GROUP BY fa.id;
+      SQL
+    else
+      sql_presupuestos = <<-SQL
+        SELECT 
+          fa.id, fa.nombre AS nombre_facultad,
+          #{base_columns_for_presupuestos_report}
+          FROM presupuestos pre
+          INNER JOIN proyectos pr ON pr.id = pre.proyecto_id
+          INNER JOIN facultades fa ON pr.facultad_id = fa.id
+          GROUP BY fa.id;
+      SQL
+    end
+    formatted_results(sql1: sql_presupuestos, join_column: 'nombre_facultad')
   end
 
   def self.por_programa
@@ -103,16 +108,7 @@ class Presupuesto < ApplicationRecord
         INNER JOIN programas pro ON pro.id = pr.programa_id
         GROUP BY pro.id;
     SQL
-    sql_presupuesto_inicial = <<-SQL
-      SELECT
-        pro.id, pro.nombre AS nombre_programa,
-        SUM(pri.valor_inicial) AS presupuesto_inicial
-        FROM presupuesto_inicial_proyectos pri
-        INNER JOIN proyectos pr ON pr.id = pri.proyecto_id
-        INNER JOIN programas pro ON pr.programa_id = pro.id
-        GROUP BY pro.id;
-    SQL
-    formatted_results(sql1: sql_presupuestos, sql2: sql_presupuesto_inicial, join_column: 'nombre_facultad')
+    formatted_results(sql1: sql_presupuestos, join_column: 'nombre_facultad')
   end
 
   def self.por_grupo
@@ -125,18 +121,7 @@ class Presupuesto < ApplicationRecord
         INNER JOIN grupos gr ON gr.id = pr.grupo_id
         GROUP BY gr.id;
     SQL
-
-    sql_presupuesto_inicial = <<-SQL
-      SELECT 
-        gr.id, gr.nombre AS nombre_grupo,
-        SUM(pri.valor_inicial) AS presupuesto_inicial
-        FROM presupuesto_inicial_proyectos pri
-        INNER JOIN proyectos pr ON pr.id = pri.proyecto_id
-        INNER JOIN grupos gr ON gr.id = pr.grupo_id
-        GROUP BY gr.id;
-    SQL
-
-    formatted_results(sql1: sql_presupuestos, sql2: sql_presupuesto_inicial, join_column: 'nombre_grupo')
+    formatted_results(sql1: sql_presupuestos, join_column: 'nombre_grupo')
   end
 
   def self.por_rubro
@@ -148,15 +133,7 @@ class Presupuesto < ApplicationRecord
         INNER JOIN rubros ru ON ru.id = pre.rubro_id
         GROUP BY ru.id;
     SQL
-    sql_presupuesto_inicial = <<-SQL
-      SELECT 
-        ru.id, ru.nombre AS nombre_rubro,
-        SUM(pri.valor_inicial) AS presupuesto_inicial
-        FROM presupuesto_inicial_proyectos pri
-        INNER JOIN rubros ru ON ru.id = pri.rubro_id
-        GROUP BY ru.id;
-    SQL
-    formatted_results(sql1: sql_presupuestos, sql2: sql_presupuesto_inicial, join_column: 'nombre_rubro')
+    formatted_results(sql1: sql_presupuestos, join_column: 'nombre_rubro')
   end
 
   def self.por_anio
@@ -168,16 +145,7 @@ class Presupuesto < ApplicationRecord
         INNER JOIN proyectos pr ON pr.id = pre.proyecto_id
         GROUP BY 1
     SQL
-    
-    sql_presupuesto_inicial = <<-SQL
-      SELECT 
-        extract(year from pr.fecha_inicio) as anio_inicio,
-        SUM(pri.valor_inicial) AS presupuesto_inicial
-        FROM presupuesto_inicial_proyectos pri
-        INNER JOIN proyectos pr ON pr.id = pri.proyecto_id
-        GROUP BY 1
-    SQL
-    formatted_results(sql1: sql_presupuestos, sql2: sql_presupuesto_inicial, join_column: 'anio_inicio')
+    formatted_results(sql1: sql_presupuestos, join_column: 'anio_inicio')
   end
 
   def self.por_facultad_rubro(facultad_id, rubro_id)
@@ -191,17 +159,7 @@ class Presupuesto < ApplicationRecord
         INNER JOIN facultades fa ON pr.facultad_id = fa.id AND fa.id = #{facultad_id}
         GROUP BY fa.id, ru.id;
     SQL
-    sql_presupuesto_inicial = <<-SQL
-      SELECT
-        fa.id AS facultad_id, fa.nombre AS nombre_facultad, ru.id AS rubro_id, ru.nombre AS nombre_rubro,
-        SUM(pri.valor_inicial) AS presupuesto_inicial
-        FROM presupuesto_inicial_proyectos pri
-        INNER JOIN proyectos pr ON pr.id = pri.proyecto_id
-        INNER JOIN rubros ru ON ru.id = pri.rubro_id AND ru.id = #{rubro_id}
-        INNER JOIN facultades fa ON pr.facultad_id = fa.id AND fa.id = #{facultad_id}
-        GROUP BY fa.id, ru.id;
-    SQL
-    formatted_results(sql1: sql_presupuestos, sql2: sql_presupuesto_inicial, join_column: 'nombre_facultad')
+    formatted_results(sql1: sql_presupuestos, join_column: 'nombre_facultad')
   end
 
   def self.count_proyecto_anio
@@ -244,10 +202,14 @@ class Presupuesto < ApplicationRecord
   
   # report_type es el tipo de reporte que se desea consultar
   # filter_option son las opciones que tiene el tipo de reporte para filtrar
-  def self.grid_data(report_type: nil, filter_option: nil)
+  def self.grid_data(report_type: nil, filter_option: nil, year_option: nil)
     # Validar que los paràmetros que envìa el usuario son correctos
     if report_type.downcase == "por_facultad" && filter_option.present?
-      by_facultad(filter_option)
+      if year_option.present?
+        by_facultad_anio(filter_option, year_option)
+      else
+        by_facultad(filter_option)
+      end
     elsif report_type.downcase == "por_grupo" && filter_option.present?
       by_grupo(filter_option)
     elsif report_type.downcase == "por_semillero" && filter_option.present?
@@ -268,22 +230,11 @@ class Presupuesto < ApplicationRecord
   # sql1 es el parámetro de la consulta de presupuestos
   # sql2 es el parámetro de la consulta de valores iniciales
   # join_column es el campo por el que se van a unir sql1 y sql2
-  def self.formatted_results(sql1: '', sql2: '', join_column: '')
-    results_presupuesto_inicial = ActiveRecord::Base.connection.exec_query(sql2).to_a.map do |res|
-      res['presupuesto_inicial'] = res['presupuesto_inicial'].to_f
-      res
-    end
+  def self.formatted_results(sql1: '', join_column: '')
     ActiveRecord::Base.connection.exec_query(sql1).to_a.map do |res|
-      # TODO Refactor
-      if results_presupuesto_inicial.present?
-        res['presupuesto_inicial'] = results_presupuesto_inicial.find do |rpi| 
-          res[join_column].to_s.downcase == rpi[join_column].to_s.downcase 
-        end['presupuesto_inicial']
-      else
-        res['presupuesto_inicial'] = res['presupuesto_inicial'].to_i
-      end
+      res['presupuesto_inicial'] = res['presupuesto_inicial'].to_f
       res['anio_inicio'] = res['anio_inicio'].to_i
-      res['disponibilidad_total'] = res['disponibilidad_total'].to_f
+      res['disponibilidad_total'] = res['presupuesto_inicial'].to_f - res['egreso_total'].to_f - res['reserva_total'].to_f
       res['egreso_total'] = res['egreso_total'].to_f
       res['reserva_total'] = res['reserva_total'].to_f
       res
@@ -291,9 +242,9 @@ class Presupuesto < ApplicationRecord
   end
 
   def self.base_columns_for_presupuestos_report
-    "SUM(pre.disponibilidad) AS disponibilidad_total,
+    "SUM(pre.valor_inicial) AS presupuesto_inicial,
+     SUM(pre.disponibilidad) AS disponibilidad_total,
      SUM(pre.egreso) AS egreso_total,
-     SUM(pre.reserva) AS reserva_total,
-     SUM(pre.valor_inicial) AS presupuesto_inicial"
+     SUM(pre.reserva) AS reserva_total"
   end
 end

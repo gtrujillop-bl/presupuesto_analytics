@@ -31,24 +31,25 @@ RSpec.describe Presupuesto, type: :model do
         presupuesto_4
       end
   
+      # res['presupuesto_inicial'].to_f - res['egreso_total'].to_f - res['reserva_total'].to_f
       let(:expected) do
         [
           {
             anio_inicio: 0,
-            disponibilidad_total: 0.0,
+            disponibilidad_total: 5500000.0,
             id: facultad_1.id,
             nombre_facultad: facultad_1.nombre,
             egreso_total: 5000000.0,
-            presupuesto_inicial: 11000000,
+            presupuesto_inicial: 11000000.0,
             reserva_total: 500000.0
           },
           {
             anio_inicio: 0,
-            disponibilidad_total: 0.0,
+            disponibilidad_total: 21800000.0,
             id: facultad_2.id,
             nombre_facultad: facultad_2.nombre,
             egreso_total: 20000000.0,
-            presupuesto_inicial: 42000000,
+            presupuesto_inicial: 42000000.0,
             reserva_total: 200000.0
           }
         ]
@@ -81,7 +82,7 @@ RSpec.describe Presupuesto, type: :model do
           {
             id: grupo_1.id,
             nombre_grupo: grupo_1.nombre,
-            disponibilidad_total: 0.0,
+            disponibilidad_total: 11000000.0 - 5000000.0 - 500000.0,
             egreso_total: 5000000.0,
             reserva_total: 500000.0,
             presupuesto_inicial: 11000000.0,
@@ -90,7 +91,7 @@ RSpec.describe Presupuesto, type: :model do
           {
             id: grupo_2.id,
             nombre_grupo: grupo_2.nombre,
-            disponibilidad_total: 0.0,
+            disponibilidad_total: 42000000.0 - 20000000.0 - 200000.0,
             egreso_total: 20000000.0,
             reserva_total: 200000.0,
             presupuesto_inicial: 42000000.0,
@@ -127,7 +128,7 @@ RSpec.describe Presupuesto, type: :model do
           {
             id: rubro_1.id,
             nombre_rubro: rubro_1.nombre,
-            disponibilidad_total: 0.0,
+            disponibilidad_total: 50000000.0 - 25000000.0 - 0.0,
             egreso_total: 25000000.0,
             reserva_total: 0.0,
             presupuesto_inicial: 50000000.0,
@@ -136,7 +137,7 @@ RSpec.describe Presupuesto, type: :model do
           {
             id: rubro_2.id,
             nombre_rubro: rubro_2.nombre,
-            disponibilidad_total: 0.0,
+            disponibilidad_total: 1000000.0 - 0.0 - 500000.0,
             egreso_total: 0.0,
             reserva_total: 500000.0,
             presupuesto_inicial: 1000000.0,
@@ -145,7 +146,7 @@ RSpec.describe Presupuesto, type: :model do
           {
             id: rubro_3.id,
             nombre_rubro: rubro_3.nombre,
-            disponibilidad_total: 0.0,
+            disponibilidad_total: 2000000.0 - 0.0 - 200000.0,
             egreso_total: 0.0,
             reserva_total: 200000.0,
             presupuesto_inicial: 2000000.0,
@@ -181,7 +182,7 @@ RSpec.describe Presupuesto, type: :model do
         [
           {
             anio_inicio: Time.now.year,
-            disponibilidad_total: 0.0,
+            disponibilidad_total: 53000000.0 - 25000000.0 - 700000.0,
             egreso_total: 25000000.0,
             reserva_total: 700000.0,
             presupuesto_inicial: 53000000.0

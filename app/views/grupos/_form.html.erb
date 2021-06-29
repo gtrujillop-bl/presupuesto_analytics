@@ -19,16 +19,16 @@
 
     <div class="field">
       <%= form.label :facultad_id %>
-      <%= form.text_field :facultad_id %>
+      <%= form.collection_select :facultad_id, facultades, :id, :nombre %>
     </div>
 
     <div class="field">
       <%= form.label :programa_id %>
-      <%= form.text_field :programa_id %>
+      <%= form.collection_select :programa_id, programas, :id, :nombre %>
     </div>
 
     <div class="actions">
-      <%= link_to 'Volver', grupos_path %> <%= form.submit "Crear grupo" %>
+      <%= link_to 'Volver', grupos_path %> <%= form.submit "Guardar" %>
     </div>
   <% end %>
 </div>

@@ -29,27 +29,27 @@
 
     <div class="field">
       <%= form.label :facultad_id %>
-      <%= form.text_field :facultad_id %>
+      <%= form.collection_select :facultad_id, facultades, :id, :nombre %>
     </div>
 
-     <div class="field">
+    <div class="field">
       <%= form.label :programa_id %>
-      <%= form.text_field :programa_id %>
+      <%= form.collection_select :programa_id, programas, :id, :nombre %>
     </div>
 
     <div class="field">
       <%= form.label :grupo_id %>
-      <%= form.text_field :grupo_id %>
+      <%= form.collection_select :grupo_id, grupos, :id, :nombre %>
     </div>
 
     <div class="field">
       <%= form.label :semillero_id %>
-      <%= form.text_field :semillero_id %>
+      <%= form.collection_select :semillero_id, semilleros, :id, :nombre %>
     </div>
 
     <div class="field">
       <%= form.label :investigador_id %>
-      <%= form.text_field :investigador_id %>
+      <%= form.collection_select :investigador_id, investigadores, :id, :nombre_completo %>
     </div>
 
     <div class="field">
