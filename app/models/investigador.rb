@@ -16,4 +16,8 @@ class Investigador < ApplicationRecord
   self.table_name = "investigadores"
   
   has_many :proyectos
+
+  def nombre_completo
+    "#{nombres} #{apellidos}"
+  end
 end

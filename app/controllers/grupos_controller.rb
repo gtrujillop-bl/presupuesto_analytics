@@ -1,5 +1,6 @@
 class GruposController < ApplicationController
   before_action :set_grupo, only: %i[ show edit update destroy ]
+  before_action :set_collection_select, only: %i[ new edit ]
 
   # GET /grupos or /grupos.json
   def index
@@ -60,6 +61,12 @@ class GruposController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_grupo
       @grupo = Grupo.find(params[:id])
+    end
+  
+    # Use callbacks to share common setup or constraints between actions.
+    def set_collection_select
+      @facultades = Facultad.all
+      @programas = Programa.all
     end
 
     # Only allow a list of trusted parameters through.

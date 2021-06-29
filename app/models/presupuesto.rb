@@ -48,6 +48,7 @@ class Presupuesto < ApplicationRecord
   }.freeze
 
   scope :by_facultad, ->(facultad_id) { joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("proyectos.facultad_id = ?", facultad_id) }
+  scope :by_facultad_anio, ->(facultad_id, year) { joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("proyectos.facultad_id = ?", facultad_id).where("extract(year from proyectos.fecha_inicio) = ?", year) }
   scope :by_grupo, ->(grupo_id) { joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("proyectos.grupo_id = ?", grupo_id) }
   scope :by_semillero, ->(semillero_id) { joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("proyectos.semillero_id = ?", semillero_id) }
   scope :by_year, ->(year) { joins("INNER JOIN proyectos ON proyectos.id = presupuestos.proyecto_id").where("extract(year from proyectos.fecha_inicio) = ?", year) }
@@ -201,10 +202,14 @@ class Presupuesto < ApplicationRecord
   
   # report_type es el tipo de reporte que se desea consultar
   # filter_option son las opciones que tiene el tipo de reporte para filtrar
-  def self.grid_data(report_type: nil, filter_option: nil)
+  def self.grid_data(report_type: nil, filter_option: nil, year_option: nil)
     # Validar que los paràmetros que envìa el usuario son correctos
     if report_type.downcase == "por_facultad" && filter_option.present?
-      by_facultad(filter_option)
+      if year_option.present?
+        by_facultad_anio(filter_option, year_option)
+      else
+        by_facultad(filter_option)
+      end
     elsif report_type.downcase == "por_grupo" && filter_option.present?
       by_grupo(filter_option)
     elsif report_type.downcase == "por_semillero" && filter_option.present?

@@ -25,7 +25,7 @@ class InvestigadoresController < ApplicationController
 
     respond_to do |format|
       if @investigador.save
-        format.html { redirect_to @investigador, notice: "Investigador was successfully created." }
+        format.html { redirect_to investigadore_path(@investigador), notice: "Investigador was successfully created." }
         format.json { render :show, status: :created, location: @investigador }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class InvestigadoresController < ApplicationController
   def update
     respond_to do |format|
       if @investigador.update(investigador_params)
-        format.html { redirect_to @investigador, notice: "Investigador was successfully updated." }
+        format.html { redirect_to investigadore_path(@investigador), notice: "Investigador was successfully updated." }
         format.json { render :show, status: :ok, location: @investigador }
       else
         format.html { render :edit, status: :unprocessable_entity }

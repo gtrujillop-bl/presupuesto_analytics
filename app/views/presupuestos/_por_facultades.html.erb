@@ -5,8 +5,8 @@
     <%= form_with url: presupuestos_path, method: :get do |form| %>
       <%= form.label :query, "Filtrar" %>
       <%= form.hidden_field :reporte, value: @report %>
-      <%= form.select :by, @options, selected: @filter_option %>
-      <%= form.select :year, @option_years, selected: @year_option %>
+      <%= form.select :by, @options, selected: @filter_option || "", disabled: "", prompt: 'Seleccionar Facultad' %>
+      <%= form.select :year, @option_years, selected: @year_option || "", disabled: "", prompt: 'Seleccionar Año' %>
       <%= form.submit "Filtrar", :class => "badge-primary" %>
     <% end %>
   </div>

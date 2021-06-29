@@ -123,11 +123,11 @@ module PresupuestosHelper
     # @options Recibe las opciones de filtrados mostradas en el select dropdown
     years = @por_anio.map { |anio| anio['anio_inicio'] }.compact.uniq
     @option_years = years
-    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option))
+    @pagy, @report_grid_data = pagy(Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option, year_option: @year_option))
     @options = @por_facultad.map { |elemento| [elemento['nombre_facultad'], elemento['id']] }
 
     # Se optienen las sumatoria de Totales 
-    calc_totals(Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option))
+    calc_totals(Presupuesto.grid_data(report_type: params[:reporte], filter_option: @filter_option, year_option: @year_option))
     # si recibe parametros de filtrado, extrae los datos según la opción de filtrado seleccionada, en caso contrario devuelve todos los resultados
     if params[:by].present?
       if params[:year].present?

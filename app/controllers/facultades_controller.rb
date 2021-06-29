@@ -25,7 +25,7 @@ class FacultadesController < ApplicationController
 
     respond_to do |format|
       if @facultad.save
-        format.html { redirect_to @facultad, notice: "Facultad was successfully created." }
+        format.html { redirect_to facultade_path(@facultad), notice: "Facultad fue creada correctamente." }
         format.json { render :show, status: :created, location: @facultad }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class FacultadesController < ApplicationController
   def update
     respond_to do |format|
       if @facultad.update(facultad_params)
-        format.html { redirect_to @facultad, notice: "Facultad was successfully updated." }
+        format.html { redirect_to facultade_path(@facultad), notice: "Facultad fue actualizada correctamente." }
         format.json { render :show, status: :ok, location: @facultad }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -51,7 +51,7 @@ class FacultadesController < ApplicationController
   def destroy
     @facultad.destroy
     respond_to do |format|
-      format.html { redirect_to facultades_url, notice: "Facultad was successfully destroyed." }
+      format.html { redirect_to facultades_url, notice: "Facultad ha sido eliminada." }
       format.json { head :no_content }
     end
   end

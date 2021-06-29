@@ -17,5 +17,5 @@
 #  fk_rails_...  (facultades_id => facultades.id)
 #
 class Programa < ApplicationRecord
-  belongs_to :facultad
+  belongs_to :facultad, foreign_key: :facultades_id
 end

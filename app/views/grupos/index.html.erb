@@ -1,14 +1,26 @@
 <p id="notice"><%= notice %></p>
+<div class="top-container">
+    <h1>Grupos</h1>
+    <div class="actions">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Menú
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+          <%= link_to 'Crear Grupo', new_grupo_path, :class => "dropdown-item" %>
+          <div class="dropdown-divider"></div>
+        </div>
+      </div>
+    </div>
+</div>
 
-<h1>Grupos</h1>
-
-<table class="table table-striped">
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Nombre</th>
       <th>Facultad</th>
       <th>Programa</th>
-      <th colspan="2"></th>
+      <th colspan="3"></th>
     </tr>
   </thead>
 
@@ -16,16 +28,12 @@
     <% @grupos.each do |grupo| %>
       <tr>
         <td><%= grupo.nombre %></td>
-        <td><%= grupo.facultad_id %></td>
-        <td><%= grupo.programa_id %></td>
-        <td><%= link_to 'Ver', grupo %></td>
-        <td><%= link_to 'Editar', edit_grupo_path(grupo) %></td>
-        <td><%= link_to 'Borrar', grupo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= grupo&.facultad&.nombre %></td>
+        <td><%= grupo&.programa&.nombre %></td>
+        <td><%= link_to 'Ver', grupo, :class => "badge badge-info"  %></td>
+        <td><%= link_to 'Editar', edit_grupo_path(grupo), :class => "badge badge-secondary"  %></td>
+        <td><%= link_to 'Borrar', grupo, method: :delete, data: { confirm: 'Are you sure?' }, :class => "badge badge-danger"  %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Grupo', new_grupo_path %>
