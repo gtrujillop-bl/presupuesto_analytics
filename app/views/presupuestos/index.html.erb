@@ -52,9 +52,9 @@
     <tbody>
       <% @presupuestos.each do |presupuesto| %>
         <tr>
-          <th scope="row"><%= presupuesto.rubro_id %></th>
-          <td><%= presupuesto.proyecto_id %></td>
-          <td><%= presupuesto.descripcion %></td>
+          <th scope="row"><%= presupuesto&.rubro&.nombre %></th>
+          <td><%= presupuesto&.proyecto&.numero_proyecto %></td>
+          <td><%= presupuesto&.descripcion %></td>
           <td class="pr-money"><%= Money.from_amount(presupuesto.valor_inicial, 'COP').format %></td>
           <td class="pr-money"><%= Money.from_amount(presupuesto.disponibilidad, 'COP').format %></td>
           <td class="pr-money"><%= Money.from_amount(presupuesto.egreso, 'COP').format %></td>
